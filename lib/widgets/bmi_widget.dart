@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BMIWidget extends StatelessWidget {
+class BMIWidget extends StatefulWidget {
   final TextEditingController heightController;
   final TextEditingController weightController;
 
@@ -10,17 +10,48 @@ class BMIWidget extends StatelessWidget {
     super.key,
   });
 
+  @override
+  BMIWidgetState createState() => BMIWidgetState();
+}
+
+class BMIWidgetState extends State<BMIWidget> {
+  double _height = 0.0;
+  double _weight = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _height = double.tryParse(widget.heightController.text) ?? 0.0;
+    _weight = double.tryParse(widget.weightController.text) ?? 0.0;
+    widget.heightController.addListener(_updateBMI);
+    widget.weightController.addListener(_updateBMI);
+  }
+
+  @override
+  void dispose() {
+    widget.heightController.removeListener(_updateBMI);
+    widget.weightController.removeListener(_updateBMI);
+    super.dispose();
+  }
+
+  void _updateBMI() {
+    setState(() {
+      _height = double.tryParse(widget.heightController.text) ?? 0.0;
+      _weight = double.tryParse(widget.weightController.text) ?? 0.0;
+    });
+  }
+
   double calculateBMI() {
-    final height = int.tryParse(heightController.text);
-    final weight = int.tryParse(weightController.text);
-    if (height != null && weight != null && height > 0 && weight > 0) {
-      return weight / ((height / 100) * (height / 100));
-    }
+    bool isHeightValid = _height > 40 && _height < 300;
+    bool isWeightValid = _weight > 10 && _weight < 1000;
+    if (isHeightValid && isWeightValid) return _weight / ((_height / 100) * (_height / 100));
     return 0.0;
   }
 
   String getBMICategory(double bmi) {
-    if (bmi < 16.0) {
+    if (bmi == 0.0) {
+      return 'N/A';
+    } else if (bmi < 16.0) {
       return 'Underweight III';
     } else if (bmi < 17.0) {
       return 'Underweight II';
@@ -43,6 +74,7 @@ class BMIWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bmi = calculateBMI();
     final bmiCategory = getBMICategory(bmi);
+    _updateBMI();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
