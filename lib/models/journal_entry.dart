@@ -2,33 +2,58 @@ import 'package:flutter/material.dart';
 
 abstract class JournalEntry {
   Icon get icon;
-  String get unit;
-  double get amount;
   DateTime get dateTime;
+  String get content;
+  String get description;
 }
 
-class WeightEntry implements JournalEntry {
+class Weight implements JournalEntry {
+  static const String name = 'Weight';
+  static const Icon staticIcon = Icon(Icons.fitness_center);
   @override
-  Icon get icon => const Icon(Icons.fitness_center);
+  Icon get icon => staticIcon;
   @override
+  final DateTime dateTime;
+  final double amount;
   String get unit => 'kg';
   @override
-  final double amount;
+  String get content => '$amount $unit';
   @override
-  final DateTime dateTime;
+  final String description;
 
-  WeightEntry({required this.dateTime, required this.amount});
+  Weight({required this.dateTime, required this.amount, required this.description});
 }
 
-class BloodSugarEntry implements JournalEntry {
+class BloodSugar implements JournalEntry {
+  static const String name = 'Blood sugar';
+  static const Icon staticIcon = Icon(Icons.local_hospital);
   @override
-  Icon get icon => const Icon(Icons.local_hospital);
-  @override
-  String get unit => 'mmol/l';
-  @override
-  final double amount;
+  Icon get icon => staticIcon;
   @override
   final DateTime dateTime;
+  final double amount;
+  String get unit => 'mmol/l';
+  @override
+  String get content => '$amount $unit';
+  @override
+  final String description;
 
-  BloodSugarEntry({required this.dateTime, required this.amount});
+  BloodSugar({required this.dateTime, required this.amount, required this.description});
+}
+
+class Meal implements JournalEntry {
+  static const String name = 'Meal';
+  static const Icon staticIcon = Icon(Icons.restaurant);
+  @override
+  Icon get icon => staticIcon;
+  @override
+  final DateTime dateTime;
+  @override
+  final String type;
+  @override
+  String get content => type;
+  @override
+  final String description;
+
+  Meal({required this.dateTime, required this.type, required this.description});
 }

@@ -24,13 +24,14 @@ class JournalRow extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('${entry.amount} ${entry.unit}'),
+          Text(entry.content),
           Text(
             formatTime(entry.dateTime),
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],
       ),
+      subtitle: Text(entry.description),
       onTap: onEdit,
     );
   }

@@ -4,15 +4,15 @@ import '../fields/description_field.dart';
 import '../fields/weight_field.dart';
 import '../models/journal_entry.dart';
 
-class WeightPage extends StatefulWidget {
+class BloodSugarPage extends StatefulWidget {
   final bool isEditMode;
-  const WeightPage({super.key, required this.isEditMode});
+  const BloodSugarPage({super.key, required this.isEditMode});
 
   @override
-  State<WeightPage> createState() => _WeightPageState();
+  State<BloodSugarPage> createState() => _BloodSugarPageState();
 }
 
-class _WeightPageState extends State<WeightPage> {
+class _BloodSugarPageState extends State<BloodSugarPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _weightController = TextEditingController(text: '70');
@@ -49,7 +49,7 @@ class _WeightPageState extends State<WeightPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(Weight.name),
+        title: const Text(BloodSugar.name),
         actions: [
           if (widget.isEditMode) IconButton(
             icon: const Icon(Icons.delete),

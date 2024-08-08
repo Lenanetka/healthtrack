@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:healthtrack1/pages/blood_sugar_page.dart';
+import 'package:healthtrack1/pages/meal_page.dart';
 import '../models/page_with_title.dart';
 import '../pages/weight_page.dart';
 import '../widgets/add_button.dart';
@@ -16,12 +18,13 @@ class JournalPage extends StatefulWidget implements PageWithTitle {
 
 class _JournalPageState extends State<JournalPage> {
   List<JournalEntry> entries = [
-    WeightEntry(dateTime: DateTime(2023, 8, 1, 10, 30), amount: 70.5),
-    BloodSugarEntry(dateTime: DateTime(2023, 8, 1, 14, 10), amount: 120.0),
-    WeightEntry(dateTime: DateTime(2023, 8, 1, 14, 15), amount: 70.2),
-    WeightEntry(dateTime: DateTime(2023, 8, 2, 9, 45), amount: 70.0),
-    WeightEntry(dateTime: DateTime(2023, 8, 2, 16, 30), amount: 70.1),
-    WeightEntry(dateTime: DateTime(2023, 8, 3, 8, 0), amount: 69.8),
+    Weight(dateTime: DateTime(2023, 8, 1, 10, 30), amount: 70.5, description: ''),
+    Meal(dateTime: DateTime(2023, 8, 1, 12, 10), type: 'Breakfast', description: 'Bread and milk'),
+    BloodSugar(dateTime: DateTime(2023, 8, 1, 14, 10), amount: 7.2, description: 'After food'),
+    Weight(dateTime: DateTime(2023, 8, 1, 14, 15), amount: 70.2, description: 'Description'),
+    Weight(dateTime: DateTime(2023, 8, 2, 9, 45), amount: 70.0, description: ''),
+    Weight(dateTime: DateTime(2023, 8, 2, 16, 30), amount: 70.1, description: ''),
+    Weight(dateTime: DateTime(2023, 8, 3, 8, 0), amount: 69.8, description: ''),
   ];
 
   String formatDate(DateTime dateTime) {
@@ -45,14 +48,18 @@ class _JournalPageState extends State<JournalPage> {
     return groupedEntries;
   }
 
-  void _editEntry(JournalEntry entry) {
-    if (entry is WeightEntry) {
-      Navigator.push(
+  void _openPage(page){
+    Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => const WeightPage(isEditMode: true)),
+            builder: (context) => page),
       );
-    }
+  }
+
+  void _editEntry(JournalEntry entry) {
+    if(entry is Weight) _openPage(const WeightPage(isEditMode: true));
+    if(entry is Meal) _openPage(const MealPage(isEditMode: true));
+    if(entry is BloodSugar) _openPage(const BloodSugarPage(isEditMode: true));
   }
 
   @override
