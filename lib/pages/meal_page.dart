@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../fields/datetime_picker.dart';
 import '../fields/description_field.dart';
-import '../fields/weight_field.dart';
+import '../fields/meal_type_dropdown.dart';
 import 'entry_page.dart';
 
 class MealPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class MealPage extends StatefulWidget {
 }
 
 class _MealPageState extends State<MealPage> {
-  final TextEditingController _weightController = TextEditingController(text: '70');
+  String? selectedMeal;
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
@@ -24,7 +24,7 @@ class _MealPageState extends State<MealPage> {
 
   void _save() {
     // Perform save opration here
-      Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void _delete() {
@@ -42,7 +42,12 @@ class _MealPageState extends State<MealPage> {
           initialDateTime: _selectedDateTime,
           onDateTimeChanged: _onDateTimeChanged,
         ),
-        WeightField(controller: _weightController),
+        MealTypeDropdown(
+          initialMealType: selectedMeal,
+          onChanged: (value) {
+            selectedMeal = value;
+          },
+        ),
         DescriptionField(controller: _descriptionController),
       ],
       onSave: _save,
@@ -52,7 +57,7 @@ class _MealPageState extends State<MealPage> {
 
   @override
   void dispose() {
-    _weightController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 }
