@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WeightField extends StatelessWidget {
   final TextEditingController controller;
@@ -11,13 +12,18 @@ class WeightField extends StatelessWidget {
       controller: controller,
       decoration: const InputDecoration(labelText: 'Weight (kg)'),
       keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+        LengthLimitingTextInputFormatter(6),
+      ],
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your weight';
         }
-        final int? weight = int.tryParse(value);
+        final double? weight = double.tryParse(value);
         if (weight == null || weight <= 0) {
-          return 'Please enter a valid weight (whole number)';
+          return 'Please enter a valid weight';
         }
         return null;
       },

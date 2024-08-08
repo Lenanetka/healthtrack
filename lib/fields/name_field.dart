@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NameField extends StatelessWidget {
   final TextEditingController controller;
@@ -10,6 +11,10 @@ class NameField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       decoration: const InputDecoration(labelText: 'Name'),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(20),
+      ],
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your name';
