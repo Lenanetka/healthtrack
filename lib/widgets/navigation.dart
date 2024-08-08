@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/page_with_title.dart';
-import 'journal.dart';
-import 'profile.dart';
+import '../pages/journal.dart';
+import '../pages/profile.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});

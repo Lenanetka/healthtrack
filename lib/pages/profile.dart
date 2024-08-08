@@ -5,7 +5,7 @@ import '../fields/height_field.dart';
 import '../fields/name_field.dart';
 import '../fields/weight_field.dart';
 
-import 'bmi_widget.dart';
+import '../widgets/bmi_widget.dart';
 
 class Profile extends StatefulWidget implements PageWithTitle {
   const Profile({super.key});
