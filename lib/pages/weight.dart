@@ -3,7 +3,8 @@ import '../fields/datetime_picker.dart';
 import '../fields/weight_field.dart';
 
 class Weight extends StatefulWidget {
-  const Weight({super.key});
+  final bool isEditMode;
+  const Weight({super.key, required this.isEditMode});
 
   @override
   State<Weight> createState() => _WeightState();
@@ -47,7 +48,7 @@ class _WeightState extends State<Weight> {
       appBar: AppBar(
         title: const Text('Weight'),
         actions: [
-          IconButton(
+          if (widget.isEditMode) IconButton(
             icon: const Icon(Icons.delete),
             onPressed: _deleteWeight,
           ),

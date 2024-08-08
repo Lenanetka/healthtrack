@@ -18,7 +18,7 @@ class AddButton extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Weight()),
+                  MaterialPageRoute(builder: (context) => const Weight(isEditMode: false)),
                 );
               },
             ),
