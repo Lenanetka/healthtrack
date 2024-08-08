@@ -24,7 +24,7 @@ class _WeightPageState extends State<WeightPage> {
 
   void _save() {
     // Perform save opration here
-      Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void _delete() {
@@ -53,6 +53,7 @@ class _WeightPageState extends State<WeightPage> {
   @override
   void dispose() {
     _weightController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 }
