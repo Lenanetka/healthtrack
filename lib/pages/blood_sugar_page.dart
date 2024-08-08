@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../fields/datetime_picker.dart';
 import '../fields/description_field.dart';
-import '../fields/weight_field.dart';
+import '../fields/blood_sugar_field.dart';
 import 'entry_page.dart';
 
 class BloodSugarPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class BloodSugarPage extends StatefulWidget {
 }
 
 class _BloodSugarPageState extends State<BloodSugarPage> {
-  final TextEditingController _weightController = TextEditingController(text: '70');
+  final TextEditingController _bloodSugarController = TextEditingController(text: '5');
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
@@ -24,7 +24,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
 
   void _save() {
     // Perform save opration here
-      Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void _delete() {
@@ -42,7 +42,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
           initialDateTime: _selectedDateTime,
           onDateTimeChanged: _onDateTimeChanged,
         ),
-        WeightField(controller: _weightController),
+        BloodSugarField(controller: _bloodSugarController),
         DescriptionField(controller: _descriptionController),
       ],
       onSave: _save,
@@ -52,7 +52,8 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
 
   @override
   void dispose() {
-    _weightController.dispose();
+    _bloodSugarController.dispose();
+    _descriptionController.dispose();
     super.dispose();
   }
 }
