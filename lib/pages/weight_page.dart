@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import '../fields/datetime_picker.dart';
 import '../fields/weight_field.dart';
 
-class Weight extends StatefulWidget {
+class WeightPage extends StatefulWidget {
   final bool isEditMode;
-  const Weight({super.key, required this.isEditMode});
+  const WeightPage({super.key, required this.isEditMode});
 
   @override
-  State<Weight> createState() => _WeightState();
+  State<WeightPage> createState() => _WeightPageState();
 }
 
-class _WeightState extends State<Weight> {
+class _WeightPageState extends State<WeightPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _weightController = TextEditingController(text: '70');

@@ -7,16 +7,16 @@ import '../fields/weight_field.dart';
 
 import '../widgets/bmi_widget.dart';
 
-class Profile extends StatefulWidget implements PageWithTitle {
-  const Profile({super.key});
+class ProfilePage extends StatefulWidget implements PageWithTitle {
+  const ProfilePage({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfilePage> createState() => _ProfilePageState();
   @override
   String get title => 'Profile';
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController(text: 'User');

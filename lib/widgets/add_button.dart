@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../pages/weight.dart';
+import '../pages/weight_page.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({super.key});
@@ -18,7 +18,7 @@ class AddButton extends StatelessWidget {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Weight(isEditMode: false)),
+                  MaterialPageRoute(builder: (context) => const WeightPage(isEditMode: false)),
                 );
               },
             ),

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import '../models/page_with_title.dart';
 import '../widgets/add_button.dart';
 
-class Journal extends StatefulWidget implements PageWithTitle {
-  const Journal({super.key});
+class JournalPage extends StatefulWidget implements PageWithTitle {
+  const JournalPage({super.key});
 
   @override
-  State<Journal> createState() => _JournalState();
+  State<JournalPage> createState() => _JournalPageState();
   @override
   String get title => 'Journal';
 }
 
-class _JournalState extends State<Journal> {
+class _JournalPageState extends State<JournalPage> {
 
   @override
   Widget build(BuildContext context) {

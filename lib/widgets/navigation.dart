@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/page_with_title.dart';
-import '../pages/journal.dart';
-import '../pages/profile.dart';
+import '../pages/journal_page.dart';
+import '../pages/profile_page.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -11,12 +11,12 @@ class Navigation extends StatefulWidget {
 }
 
 class NavigationState extends State<Navigation> {
-  Widget _bodyContent = const Journal();
+  Widget _bodyContent = const JournalPage();
   Widget _title = const Text('Journal');
 
   final List<PageWithTitle> _pages = [
-    const Journal(),
-    const Profile(),
+    const JournalPage(),
+    const ProfilePage(),
   ];
 
   void _open(page) {
