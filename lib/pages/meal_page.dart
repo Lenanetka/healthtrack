@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../fields/datetime_picker.dart';
 import '../fields/description_field.dart';
-import '../fields/meal_type_dropdown.dart';
+import '../fields/meal_dropdown.dart';
 import 'entry_page.dart';
 
 class MealPage extends StatefulWidget {
@@ -42,7 +42,7 @@ class _MealPageState extends State<MealPage> {
           initialDateTime: _selectedDateTime,
           onDateTimeChanged: _onDateTimeChanged,
         ),
-        MealTypeDropdown(
+        MealDropdown(
           initialMealType: selectedMeal,
           onChanged: (value) {
             selectedMeal = value;

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class MealTypeDropdown extends StatefulWidget {
+class MealDropdown extends StatefulWidget {
   final String? initialMealType;
   final ValueChanged<String?>? onChanged;
 
-  const MealTypeDropdown({this.initialMealType, this.onChanged, super.key});
+  const MealDropdown({this.initialMealType, this.onChanged, super.key});
 
   @override
-  MealTypeDropdownState createState() => MealTypeDropdownState();
+  MealDropdownState createState() => MealDropdownState();
 }
 
-class MealTypeDropdownState extends State<MealTypeDropdown> {
+class MealDropdownState extends State<MealDropdown> {
   final List<String> mealTypes = ['Breakfast', 'Lunch', 'Dinner', 'Snack'];
   String? _selectedMealType;
 
