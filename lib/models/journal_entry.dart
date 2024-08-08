@@ -8,10 +8,8 @@ abstract class JournalEntry {
 }
 
 class Weight implements JournalEntry {
-  static const String name = 'Weight';
-  static const Icon staticIcon = Icon(Icons.fitness_center);
   @override
-  Icon get icon => staticIcon;
+  Icon get icon => const Icon(Icons.fitness_center);
   @override
   final DateTime dateTime;
   final double amount;
@@ -25,10 +23,8 @@ class Weight implements JournalEntry {
 }
 
 class BloodSugar implements JournalEntry {
-  static const String name = 'Blood sugar';
-  static const Icon staticIcon = Icon(Icons.local_hospital);
   @override
-  Icon get icon => staticIcon;
+  Icon get icon => const Icon(Icons.local_hospital);
   @override
   final DateTime dateTime;
   final double amount;
@@ -42,10 +38,8 @@ class BloodSugar implements JournalEntry {
 }
 
 class Meal implements JournalEntry {
-  static const String name = 'Meal';
-  static const Icon staticIcon = Icon(Icons.restaurant);
   @override
-  Icon get icon => staticIcon;
+  Icon get icon => const Icon(Icons.restaurant);
   @override
   final DateTime dateTime;
   @override

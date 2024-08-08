@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import '../pages/blood_sugar_page.dart';
 import '../pages/meal_page.dart';
 import '../pages/weight_page.dart';
-import '../models/journal_entry.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({super.key});
 
-  void _openPage(context, page){
+  void _openPage(context, page) {
     Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => page),
-                );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 
   void _showAddOptions(BuildContext context) {
@@ -23,36 +22,24 @@ class AddButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Weight.staticIcon,
-              title: const Text(Weight.name),
+              leading: const Icon(Icons.fitness_center),
+              title: const Text('Weight'),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const WeightPage(isEditMode: false)),
-                );
+                _openPage(context, const WeightPage(isEditMode: false));
               },
             ),
             ListTile(
-              leading: Meal.staticIcon,
-              title: const Text(Meal.name),
+              leading: const Icon(Icons.restaurant),
+              title: const Text('Meal'),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MealPage(isEditMode: false)),
-                );
+                _openPage(context, const MealPage(isEditMode: false));
               },
             ),
             ListTile(
-              leading: BloodSugar.staticIcon,
-              title: const Text(BloodSugar.name),
+              leading: const Icon(Icons.local_hospital),
+              title: const Text('Blood sugar'),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const BloodSugarPage(isEditMode: false)),
-                );
+                _openPage(context, const BloodSugarPage(isEditMode: false));
               },
             ),
             // Add more options here if needed
@@ -71,6 +58,3 @@ class AddButton extends StatelessWidget {
     );
   }
 }
-
-
-
