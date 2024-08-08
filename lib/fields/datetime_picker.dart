@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DateTimePicker extends StatefulWidget {
-  final DateTime initialDate;
-  final TimeOfDay initialTime;
-  final Function(DateTime date, TimeOfDay time) onDateTimeChanged;
+  final DateTime initialDateTime;
+  final ValueChanged<DateTime> onDateTimeChanged;
 
   const DateTimePicker({
-    required this.initialDate,
-    required this.initialTime,
+    required this.initialDateTime,
     required this.onDateTimeChanged,
     super.key,
   });
@@ -17,41 +15,57 @@ class DateTimePicker extends StatefulWidget {
 }
 
 class _DateTimePickerState extends State<DateTimePicker> {
-  late DateTime _selectedDate;
-  late TimeOfDay _selectedTime;
+  late DateTime _selectedDateTime;
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.initialDate;
-    _selectedTime = widget.initialTime;
+    _selectedDateTime = widget.initialDateTime;
   }
 
+  DateTime _selectedDate(){
+    return DateTime(_selectedDateTime.year, _selectedDateTime.month, _selectedDateTime.day);
+  }
+
+  TimeOfDay _selectedTime(){
+    return TimeOfDay(hour: _selectedDateTime.hour, minute: _selectedDateTime.minute);
+  }
+
+  DateTime combineDateTime(DateTime date, TimeOfDay time) {
+      return DateTime(
+        date.year,
+        date.month,
+        date.day,
+        time.hour,
+        time.minute,
+      );
+    }
+
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate,
+      initialDate: _selectedDate(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != _selectedDate) {
+    if (pickedDate != null && pickedDate != _selectedDate()) {
       setState(() {
-        _selectedDate = picked;
+        _selectedDateTime = combineDateTime(pickedDate, _selectedTime());
       });
-      widget.onDateTimeChanged(_selectedDate, _selectedTime);
+      widget.onDateTimeChanged(_selectedDateTime);
     }
   }
 
   Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
+    final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
-      initialTime: _selectedTime,
+      initialTime: _selectedTime(),
     );
-    if (picked != null && picked != _selectedTime) {
+    if (pickedTime != null && pickedTime != _selectedTime()) {
       setState(() {
-        _selectedTime = picked;
+        _selectedDateTime = combineDateTime(_selectedDate(), pickedTime);
       });
-      widget.onDateTimeChanged(_selectedDate, _selectedTime);
+      widget.onDateTimeChanged(_selectedDateTime);
     }
   }
 
@@ -67,7 +81,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
     return '${hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} $period';
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,7 +95,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 labelText: 'Date',
                 border: OutlineInputBorder(),
               ),
-              child: Text(_formatDate(_selectedDate)),
+              child: Text(_formatDate(_selectedDate())),
             ),
           ),
         ),
@@ -95,7 +109,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                 labelText: 'Time',
                 border: OutlineInputBorder(),
               ),
-              child: Text(_formatTime(_selectedTime)),
+              child: Text(_formatTime(_selectedTime())),
             ),
           ),
         ),
