@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/page_with_title.dart';
 
 import '../fields/height_field.dart';
@@ -24,6 +25,26 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _weightController = TextEditingController(text: '70');
 
   @override
+  void initState() {
+    super.initState();
+    load();
+  }
+
+  Future<void> load() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  _nameController.text = prefs.getString('name') ?? 'User';
+  _heightController.text = (prefs.getDouble('height') ?? 180.0).toString();
+  _weightController.text = (prefs.getDouble('weight') ?? 70.0).toString();
+}
+
+  Future<void> save() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', _nameController.text);
+    await prefs.setDouble('height', double.parse(_heightController.text));
+    await prefs.setDouble('weight', double.parse(_weightController.text));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
@@ -44,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    // Perform save operation
+                    save();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Profile saved')),
                     );
