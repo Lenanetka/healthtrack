@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:healthtrack1/pages/blood_sugar_page.dart';
-import 'package:healthtrack1/pages/meal_page.dart';
+import 'package:intl/intl.dart';
+
+import '../pages/blood_sugar_page.dart';
+import '../pages/meal_page.dart';
 import '../models/page_with_title.dart';
 import '../pages/weight_page.dart';
 import '../widgets/add_button.dart';
@@ -28,10 +30,8 @@ class _JournalPageState extends State<JournalPage> {
   ];
 
   String formatDate(DateTime dateTime) {
-    final month = dateTime.month.toString().padLeft(2, '0');
-    final day = dateTime.day.toString().padLeft(2, '0');
-    final year = dateTime.year;
-    return '$month/$day/$year';
+    final DateFormat formatter = DateFormat('EEE, d MMM');
+    return formatter.format(dateTime);
   }
 
   Map<String, List<JournalEntry>> _groupedEntries() {
