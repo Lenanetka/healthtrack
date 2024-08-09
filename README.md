@@ -1,16 +1,31 @@
-# healthtrack1
+# Health Track
 
-A new Flutter project.
+Track your weight, blood sugat and meals.
 
-## Getting Started
+## Dependencies
 
-This project is a starting point for a Flutter application.
+Can be updated in pubspec.yaml
 
-A few resources to get you started if this is your first Flutter project:
+Check installed:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```
+flutter pub deps
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Install dependencies:
+
+```
+flutter pub get
+```
+
+Check outdated:
+
+```
+flutter pub outdated
+```
+
+Upgrades:
+
+```
+flutter pub upgrade --major-versions
+```
