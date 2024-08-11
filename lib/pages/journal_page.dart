@@ -46,7 +46,8 @@ class _JournalPageState extends State<JournalPage> {
     final Map<String, List<Journal>> groupedEntries = {};
 
     for (var entry in _entries) {
-      final String formattedDate = formatDate(entry.dateTime);
+      final String formattedDate =
+          DateFormat('EEE, d MMM').format(entry.dateTime);
       if (!groupedEntries.containsKey(formattedDate)) {
         groupedEntries[formattedDate] = [];
       }
@@ -54,11 +55,6 @@ class _JournalPageState extends State<JournalPage> {
     }
 
     return groupedEntries;
-  }
-
-  String formatDate(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('EEE, d MMM');
-    return formatter.format(dateTime);
   }
 
   Future<void> _openPage(page) async {
@@ -118,50 +114,52 @@ class _JournalPageState extends State<JournalPage> {
     }
   }
 
-  Widget _notFoundPage() {
-    return Center(
-      child: Text(
-        'No entries found. Please add some data.',
-        style: Theme.of(context).textTheme.bodyLarge,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final groupedEntries = _groupedEntries();
 
-    return Scaffold(
-      body: groupedEntries.isEmpty
-          ? _notFoundPage()
-          : ListView.builder(
-              itemCount: groupedEntries.length,
-              itemBuilder: (context, index) {
-                final date = groupedEntries.keys.elementAt(index);
-                final entries = groupedEntries[date]!;
+    Widget emptyList() {
+      return Center(
+        child: Text(
+          'No entries found. Please add some data.',
+          style: Theme.of(context).textTheme.bodyLarge,
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        date,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                    ...entries.map((entry) {
-                      return JournalRow(
-                        entry: entry,
-                        onEdit: () => _editEntry(entry),
-                      );
-                    }),
-                    const Divider(),
-                  ],
+    Widget journalList() {
+      return ListView.builder(
+        itemCount: groupedEntries.length,
+        itemBuilder: (context, index) {
+          final date = groupedEntries.keys.elementAt(index);
+          final entries = groupedEntries[date]!;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  date,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+              ...entries.map((entry) {
+                return JournalRow(
+                  entry: entry,
+                  onEdit: () => _editEntry(entry),
                 );
-              },
-            ),
+              }),
+              const Divider(),
+            ],
+          );
+        },
+      );
+    }
+
+    return Scaffold(
+      body: groupedEntries.isEmpty ? emptyList() : journalList(),
       floatingActionButton: AddButton(
         onAddWeight: _addWeightEntry,
         onAddMeal: _addMealEntry,
