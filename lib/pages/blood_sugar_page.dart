@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../models/journal.dart';
+import '../models/journal_database.dart';
+
 import '../fields/datetime_picker.dart';
 import '../fields/description_field.dart';
 import '../fields/blood_sugar_field.dart';
@@ -6,7 +10,8 @@ import 'entry_page.dart';
 
 class BloodSugarPage extends StatefulWidget {
   final bool isEditMode;
-  const BloodSugarPage({super.key, required this.isEditMode});
+  final BloodSugar? entry;
+  const BloodSugarPage({super.key, required this.isEditMode, required this.entry});
 
   @override
   State<BloodSugarPage> createState() => _BloodSugarPageState();
@@ -22,14 +27,15 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
     });
   }
 
-  void _save() {
-    // Perform save opration here
-    Navigator.pop(context);
-  }
-
-  void _delete() {
-    // Perform delete operation here
-    Navigator.pop(context);
+  Future<void> _save() async {
+    BloodSugar entry = BloodSugar(
+        id: widget.entry?.id,
+        dateTime: _selectedDateTime,
+        amount: double.parse(_bloodSugarController.text),
+        description: _descriptionController.text);
+    final db = JournalDatabase();
+    await db.saveJournalEntry(entry);
+    if (mounted) Navigator.pop(context);
   }
 
   @override
@@ -37,6 +43,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
     return EntryPage(
       title: 'Blood sugar',
       isEditMode: widget.isEditMode,
+      entry: widget.entry,
       fields: [
         DateTimePicker(
           initialDateTime: _selectedDateTime,
@@ -45,8 +52,9 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
         BloodSugarField(controller: _bloodSugarController),
         DescriptionField(controller: _descriptionController),
       ],
-      onSave: _save,
-      onDelete: widget.isEditMode ? _delete : null,
+      onSave: () async {
+        await _save();
+      },
     );
   }
 

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../models/journal.dart';
+import '../models/journal_database.dart';
+
 import '../fields/datetime_picker.dart';
 import '../fields/description_field.dart';
 import '../fields/meal_dropdown.dart';
@@ -6,14 +10,15 @@ import 'entry_page.dart';
 
 class MealPage extends StatefulWidget {
   final bool isEditMode;
-  const MealPage({super.key, required this.isEditMode});
+  final Meal? entry;
+  const MealPage({super.key, required this.isEditMode, required this.entry});
 
   @override
   State<MealPage> createState() => _MealPageState();
 }
 
 class _MealPageState extends State<MealPage> {
-  String? selectedMeal;
+  String selectedMeal = 'Breakfast';
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
@@ -22,14 +27,25 @@ class _MealPageState extends State<MealPage> {
     });
   }
 
-  void _save() {
-    // Perform save opration here
-    Navigator.pop(context);
+  @override
+  void initState() {
+    super.initState();
+    selectedMeal = _defaultMeal();
   }
 
-  void _delete() {
-    // Perform delete operation here
-    Navigator.pop(context);
+  Future<void> _save() async {
+    Meal entry = Meal(
+        id: widget.entry?.id,
+        dateTime: _selectedDateTime,
+        name: selectedMeal,
+        description: _descriptionController.text);
+    final db = JournalDatabase();
+    await db.saveJournalEntry(entry);
+    if (mounted) Navigator.pop(context);
+  }
+
+  String _defaultMeal(){
+    return 'Breakfast';
   }
 
   @override
@@ -37,6 +53,7 @@ class _MealPageState extends State<MealPage> {
     return EntryPage(
       title: 'Meal',
       isEditMode: widget.isEditMode,
+      entry: widget.entry,
       fields: [
         DateTimePicker(
           initialDateTime: _selectedDateTime,
@@ -45,13 +62,14 @@ class _MealPageState extends State<MealPage> {
         MealDropdown(
           initialMealType: selectedMeal,
           onChanged: (value) {
-            selectedMeal = value;
+            selectedMeal = value ?? _defaultMeal();
           },
         ),
         DescriptionField(controller: _descriptionController),
       ],
-      onSave: _save,
-      onDelete: widget.isEditMode ? _delete : null,
+      onSave: () async {
+        await _save();
+      },
     );
   }
 

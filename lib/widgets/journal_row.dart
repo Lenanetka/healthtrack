@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/journal_entry.dart';
+import '../models/journal.dart';
 
 class JournalRow extends StatelessWidget {
-  final JournalEntry entry;
+  final Journal entry;
   final VoidCallback onEdit;
 
   const JournalRow({
@@ -24,7 +24,7 @@ class JournalRow extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(entry.content),
+          Text(entry.displayedContent),
           Text(
             formatTime(entry.dateTime),
             style: Theme.of(context).textTheme.bodySmall,

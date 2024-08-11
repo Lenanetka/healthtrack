@@ -25,21 +25,21 @@ class AddButton extends StatelessWidget {
               leading: const Icon(Icons.fitness_center),
               title: const Text('Weight'),
               onTap: () {
-                _openPage(context, const WeightPage(isEditMode: false));
+                _openPage(context, const WeightPage(isEditMode: false, entry: null));
               },
             ),
             ListTile(
               leading: const Icon(Icons.restaurant),
               title: const Text('Meal'),
               onTap: () {
-                _openPage(context, const MealPage(isEditMode: false));
+                _openPage(context, const MealPage(isEditMode: false, entry: null));
               },
             ),
             ListTile(
               leading: const Icon(Icons.local_hospital),
               title: const Text('Blood sugar'),
               onTap: () {
-                _openPage(context, const BloodSugarPage(isEditMode: false));
+                _openPage(context, const BloodSugarPage(isEditMode: false, entry: null));
               },
             ),
             // Add more options here if needed

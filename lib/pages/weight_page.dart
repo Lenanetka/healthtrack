@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../models/journal.dart';
+import '../models/journal_database.dart';
+
 import '../fields/datetime_picker.dart';
 import '../fields/description_field.dart';
 import '../fields/weight_field.dart';
@@ -6,14 +10,16 @@ import 'entry_page.dart';
 
 class WeightPage extends StatefulWidget {
   final bool isEditMode;
-  const WeightPage({super.key, required this.isEditMode});
+  final Weight? entry;
+  const WeightPage({super.key, required this.isEditMode, required this.entry});
 
   @override
   State<WeightPage> createState() => _WeightPageState();
 }
 
 class _WeightPageState extends State<WeightPage> {
-  final TextEditingController _weightController = TextEditingController(text: '70');
+  final TextEditingController _weightController =
+      TextEditingController(text: '70');
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
@@ -22,14 +28,15 @@ class _WeightPageState extends State<WeightPage> {
     });
   }
 
-  void _save() {
-    // Perform save opration here
-    Navigator.pop(context);
-  }
-
-  void _delete() {
-    // Perform delete operation here
-    Navigator.pop(context);
+  Future<void> _save() async {
+    Weight entry = Weight(
+        id: widget.entry?.id,
+        dateTime: _selectedDateTime,
+        amount: double.parse(_weightController.text),
+        description: _descriptionController.text);
+    final db = JournalDatabase();
+    await db.saveJournalEntry(entry);
+    if (mounted) Navigator.pop(context, true);
   }
 
   @override
@@ -37,6 +44,7 @@ class _WeightPageState extends State<WeightPage> {
     return EntryPage(
       title: 'Weight',
       isEditMode: widget.isEditMode,
+      entry: widget.entry,
       fields: [
         DateTimePicker(
           initialDateTime: _selectedDateTime,
@@ -45,8 +53,9 @@ class _WeightPageState extends State<WeightPage> {
         WeightField(controller: _weightController),
         DescriptionField(controller: _descriptionController),
       ],
-      onSave: _save,
-      onDelete: widget.isEditMode ? _delete : null,
+      onSave: () async {
+        await _save();
+      },
     );
   }
 
