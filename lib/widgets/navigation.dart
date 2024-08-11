@@ -19,17 +19,16 @@ class NavigationState extends State<Navigation> {
     const ProfilePage(),
   ];
 
-  void _open(page) {
+  void _open(pageKey) {
     setState(() {
-      _title = Text(_pages[page].title);
-      _bodyContent = _pages[page];
+      _title = Text(_pages[pageKey].title);
+      _bodyContent = _pages[pageKey];
     });
-    Navigator.of(context).pop(); // Close the menu
+    Navigator.of(context).pop();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    const drawerHeader = UserAccountsDrawerHeader(
+  Widget drawerHeader() {
+    return const UserAccountsDrawerHeader(
       accountName: Text('User Name'),
       accountEmail: Text('user.name@email.com'),
       currentAccountPicture: CircleAvatar(
@@ -37,19 +36,26 @@ class NavigationState extends State<Navigation> {
         child: FlutterLogo(size: 42.0), //Text('A')
       ),
     );
-    final drawerItems = ListView(
+  }
+
+  Widget drawerItems(BuildContext context) {
+    return ListView(
       children: <Widget>[
-        drawerHeader,
-        ListTile(
-          title: Text(_pages[0].title),
-          onTap: () => _open(0),
-        ),
-        ListTile(
-          title: Text(_pages[1].title),
-          onTap: () =>_open(1),
-        ),
+        drawerHeader(),
+        ..._pages.asMap().entries.map((item) {
+          int pageKey = item.key;
+          PageWithTitle page = item.value;
+          return ListTile(
+            title: Text(page.title),
+            onTap: () => _open(pageKey),
+          );
+        }),
       ],
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -57,7 +63,7 @@ class NavigationState extends State<Navigation> {
       ),
       body: _bodyContent,
       drawer: Drawer(
-        child: drawerItems,
+        child: drawerItems(context),
       ),
     );
   }
