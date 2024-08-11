@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/add_button.dart';
 import '../widgets/journal_row.dart';
@@ -22,33 +23,29 @@ class JournalPage extends StatefulWidget implements PageWithTitle {
 }
 
 class _JournalPageState extends State<JournalPage> {
-  List<Journal> entries = [];
+  late JournalDatabase _db;
+  List<Journal> _entries = [];
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _db = Provider.of<JournalDatabase>(context, listen: false);
     _loadEntries();
   }
 
   Future<void> _loadEntries() async {
-    final db = JournalDatabase();
     DateTime now = DateTime.now();
     DateTime oneMonthAgo = now.subtract(const Duration(days: 30));
-    final fetchedEntries = await db.getJournalByDate(now, oneMonthAgo);
+    final fetchedEntries = await _db.getJournalByDate(oneMonthAgo, now);
     setState(() {
-      entries = fetchedEntries;
+      _entries = fetchedEntries;
     });
-  }
-
-  String formatDate(DateTime dateTime) {
-    final DateFormat formatter = DateFormat('EEE, d MMM');
-    return formatter.format(dateTime);
   }
 
   Map<String, List<Journal>> _groupedEntries() {
     final Map<String, List<Journal>> groupedEntries = {};
 
-    for (var entry in entries) {
+    for (var entry in _entries) {
       final String formattedDate = formatDate(entry.dateTime);
       if (!groupedEntries.containsKey(formattedDate)) {
         groupedEntries[formattedDate] = [];
@@ -59,21 +56,65 @@ class _JournalPageState extends State<JournalPage> {
     return groupedEntries;
   }
 
+  String formatDate(DateTime dateTime) {
+    final DateFormat formatter = DateFormat('EEE, d MMM');
+    return formatter.format(dateTime);
+  }
+
   Future<void> _openPage(page) async {
-    final result = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
     );
-    if (result == true) await _loadEntries();
+  }
+
+  Future<void> _addWeightEntry() async {
+    await _openPage(WeightPage(
+      isEditMode: false,
+      entry: null,
+      onSave: _loadEntries,
+      onDelete: _loadEntries,
+    ));
+  }
+
+  Future<void> _addMealEntry() async {
+    await _openPage(MealPage(
+      isEditMode: false,
+      entry: null,
+      onSave: _loadEntries,
+      onDelete: _loadEntries,
+    ));
+  }
+
+  Future<void> _addBloodSugarEntry() async {
+    await _openPage(BloodSugarPage(
+      isEditMode: false,
+      entry: null,
+      onSave: _loadEntries,
+      onDelete: _loadEntries,
+    ));
   }
 
   Future<void> _editEntry(Journal entry) async {
     if (entry is Weight) {
-      await _openPage(WeightPage(isEditMode: true, entry: entry));
+      await _openPage(WeightPage(
+        isEditMode: true,
+        entry: entry,
+        onSave: _loadEntries,
+        onDelete: _loadEntries,
+      ));
     } else if (entry is Meal) {
-      await _openPage(MealPage(isEditMode: true, entry: entry));
+      await _openPage(MealPage(
+          isEditMode: true,
+          entry: entry,
+          onSave: _loadEntries,
+          onDelete: _loadEntries));
     } else if (entry is BloodSugar) {
-      await _openPage(BloodSugarPage(isEditMode: true, entry: entry));
+      await _openPage(BloodSugarPage(
+          isEditMode: true,
+          entry: entry,
+          onSave: _loadEntries,
+          onDelete: _loadEntries));
     }
   }
 
@@ -92,7 +133,7 @@ class _JournalPageState extends State<JournalPage> {
     final groupedEntries = _groupedEntries();
 
     return Scaffold(
-      body: entries.isEmpty
+      body: groupedEntries.isEmpty
           ? _notFoundPage()
           : ListView.builder(
               itemCount: groupedEntries.length,
@@ -113,9 +154,7 @@ class _JournalPageState extends State<JournalPage> {
                     ...entries.map((entry) {
                       return JournalRow(
                         entry: entry,
-                        onEdit: () => () async {
-                          await _editEntry(entry);
-                        },
+                        onEdit: () => _editEntry(entry),
                       );
                     }),
                     const Divider(),
@@ -123,7 +162,11 @@ class _JournalPageState extends State<JournalPage> {
                 );
               },
             ),
-      floatingActionButton: const AddButton(),
+      floatingActionButton: AddButton(
+        onAddWeight: _addWeightEntry,
+        onAddMeal: _addMealEntry,
+        onAddBloodSugar: _addBloodSugarEntry,
+      ),
     );
   }
 }

@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
-import '../pages/blood_sugar_page.dart';
-import '../pages/meal_page.dart';
-import '../pages/weight_page.dart';
 
-class AddButton extends StatelessWidget {
-  const AddButton({super.key});
+class AddButton extends StatefulWidget {
+  final VoidCallback onAddWeight;
+  final VoidCallback onAddMeal;
+  final VoidCallback onAddBloodSugar;
+  const AddButton({
+    super.key,
+    required this.onAddWeight,
+    required this.onAddMeal,
+    required this.onAddBloodSugar,
+  });
 
-  void _openPage(context, page) {
+  @override
+  State<AddButton> createState() => _AddButtonState();
+}
+
+class _AddButtonState extends State<AddButton> {
+  void _addWeight() {
     Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
+    widget.onAddWeight();
+  }
+
+  void _addMeal() {
+    Navigator.pop(context);
+    widget.onAddMeal();
+  }
+
+  void _addBloodSugar() {
+    Navigator.pop(context);
+    widget.onAddBloodSugar();
   }
 
   void _showAddOptions(BuildContext context) {
@@ -24,23 +41,17 @@ class AddButton extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.fitness_center),
               title: const Text('Weight'),
-              onTap: () {
-                _openPage(context, const WeightPage(isEditMode: false, entry: null));
-              },
+              onTap: _addWeight,
             ),
             ListTile(
               leading: const Icon(Icons.restaurant),
               title: const Text('Meal'),
-              onTap: () {
-                _openPage(context, const MealPage(isEditMode: false, entry: null));
-              },
+              onTap: _addMeal,
             ),
             ListTile(
               leading: const Icon(Icons.local_hospital),
               title: const Text('Blood sugar'),
-              onTap: () {
-                _openPage(context, const BloodSugarPage(isEditMode: false, entry: null));
-              },
+              onTap: _addBloodSugar,
             ),
             // Add more options here if needed
           ],

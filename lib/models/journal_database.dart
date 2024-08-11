@@ -1,5 +1,8 @@
+import 'dart:io';
 import 'package:drift/drift.dart';
-import 'package:drift_flutter/drift_flutter.dart';
+import 'package:drift/native.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'journal.dart';
 
 part 'journal_database.g.dart';
@@ -15,18 +18,10 @@ class JournalEntries extends Table {
 
 @DriftDatabase(tables: [JournalEntries])
 class JournalDatabase extends _$JournalDatabase {
-  static final JournalDatabase _instance = JournalDatabase._internal();
-  factory JournalDatabase() {
-    return _instance;
-  }
-  JournalDatabase._internal() : super(_openConnection());
+  JournalDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
-
-  static QueryExecutor _openConnection() {
-    return driftDatabase(name: 'journal_database.db');
-  }
 
   Future<void> saveJournalEntry(Journal journal) async {
     final entry = JournalEntriesCompanion(
@@ -35,7 +30,12 @@ class JournalDatabase extends _$JournalDatabase {
       description: Value(journal.description),
       type: Value(journal.type),
     );
-    await into(journalEntries).insert(entry, mode: InsertMode.insertOrReplace);
+    if (journal.id == null) {
+      await into(journalEntries).insert(entry);
+    } else {
+      await (update(journalEntries)..where((tbl) => tbl.id.equals(journal.id!)))
+          .write(entry);
+    }
   }
 
   Future<void> deleteJournalEntry(int id) async {
@@ -76,4 +76,12 @@ class JournalDatabase extends _$JournalDatabase {
       }
     }).toList();
   }
+}
+
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(path.join(dbFolder.path, 'journal_database.sqlite'));
+    return NativeDatabase(file);
+  });
 }

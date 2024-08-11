@@ -9,6 +9,7 @@ class EntryPage extends StatefulWidget {
   final Journal? entry;
   final List<Widget> fields;
   final VoidCallback onSave;
+  final VoidCallback onDelete;
 
   const EntryPage({
     super.key,
@@ -17,6 +18,7 @@ class EntryPage extends StatefulWidget {
     required this.entry,
     required this.fields,
     required this.onSave,
+    required this.onDelete,
   });
 
   @override
@@ -30,6 +32,7 @@ class _EntryPageState extends State<EntryPage> {
     if (widget.entry != null) {
       final db = JournalDatabase();
       await db.deleteJournalEntry(widget.entry!.id ?? 0);
+      widget.onDelete();
     }
     if (mounted) Navigator.pop(context);
   }

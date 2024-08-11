@@ -11,20 +11,36 @@ import 'entry_page.dart';
 class BloodSugarPage extends StatefulWidget {
   final bool isEditMode;
   final BloodSugar? entry;
-  const BloodSugarPage({super.key, required this.isEditMode, required this.entry});
+  final VoidCallback onSave;
+  final VoidCallback onDelete;
+  const BloodSugarPage({
+    super.key,
+    required this.isEditMode,
+    required this.entry,
+    required this.onSave,
+    required this.onDelete,
+  });
 
   @override
   State<BloodSugarPage> createState() => _BloodSugarPageState();
 }
 
 class _BloodSugarPageState extends State<BloodSugarPage> {
-  final TextEditingController _bloodSugarController = TextEditingController(text: '5');
+  final TextEditingController _bloodSugarController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
     setState(() {
       _selectedDateTime = datetime;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDateTime = widget.entry?.dateTime ?? DateTime.now();
+    _bloodSugarController.text = widget.entry?.content ?? '5';
+    _descriptionController.text = widget.entry?.description ?? '';
   }
 
   Future<void> _save() async {
@@ -35,6 +51,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
         description: _descriptionController.text);
     final db = JournalDatabase();
     await db.saveJournalEntry(entry);
+    widget.onSave();
     if (mounted) Navigator.pop(context);
   }
 
@@ -55,6 +72,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
       onSave: () async {
         await _save();
       },
+      onDelete: () => widget.onDelete(),
     );
   }
 
