@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../models/journal.dart';
-import '../models/journal_database.dart';
+import '../../models/journal.dart';
+import '../../models/journal_database.dart';
 
-import '../fields/datetime_picker.dart';
-import '../fields/description_field.dart';
-import '../fields/meal_dropdown.dart';
+import '../../fields/datetime_picker.dart';
+import '../../fields/description_field.dart';
+import '../../fields/blood_sugar_field.dart';
 import 'entry_page.dart';
 
-class MealPage extends StatefulWidget {
+class BloodSugarPage extends StatefulWidget {
   final bool isEditMode;
-  final Meal? entry;
+  final BloodSugar? entry;
   final VoidCallback onSave;
   final VoidCallback onDelete;
-  const MealPage({
+  const BloodSugarPage({
     super.key,
     required this.isEditMode,
     required this.entry,
@@ -22,16 +22,11 @@ class MealPage extends StatefulWidget {
   });
 
   @override
-  State<MealPage> createState() => _MealPageState();
+  State<BloodSugarPage> createState() => _BloodSugarPageState();
 }
 
-class _MealPageState extends State<MealPage> {
-  String _selectedMeal = 'Breakfast';
-  void _onMealChanged(String? name) {
-    setState(() {
-      _selectedMeal = name ?? 'Breakfast';
-    });
-  }
+class _BloodSugarPageState extends State<BloodSugarPage> {
+  final TextEditingController _bloodSugarController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
@@ -44,15 +39,15 @@ class _MealPageState extends State<MealPage> {
   void initState() {
     super.initState();
     _selectedDateTime = widget.entry?.dateTime ?? DateTime.now();
-    _selectedMeal = widget.entry?.content ?? 'Breakfast';
+    _bloodSugarController.text = widget.entry?.content ?? '5';
     _descriptionController.text = widget.entry?.description ?? '';
   }
 
   Future<void> _save() async {
-    Meal entry = Meal(
+    BloodSugar entry = BloodSugar(
         id: widget.entry?.id,
         dateTime: _selectedDateTime,
-        name: _selectedMeal,
+        amount: double.parse(_bloodSugarController.text),
         description: _descriptionController.text);
     final db = JournalDatabase();
     await db.saveJournalEntry(entry);
@@ -63,7 +58,7 @@ class _MealPageState extends State<MealPage> {
   @override
   Widget build(BuildContext context) {
     return EntryPage(
-      title: 'Meal',
+      title: 'Blood sugar',
       isEditMode: widget.isEditMode,
       entry: widget.entry,
       fields: [
@@ -71,10 +66,7 @@ class _MealPageState extends State<MealPage> {
           initialDateTime: _selectedDateTime,
           onDateTimeChanged: _onDateTimeChanged,
         ),
-        MealDropdown(
-          initialMealType: _selectedMeal,
-          onChanged: (value) => _onMealChanged(value),
-        ),
+        BloodSugarField(controller: _bloodSugarController),
         DescriptionField(controller: _descriptionController),
       ],
       onSave: () async {
@@ -86,6 +78,7 @@ class _MealPageState extends State<MealPage> {
 
   @override
   void dispose() {
+    _bloodSugarController.dispose();
     _descriptionController.dispose();
     super.dispose();
   }

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/journal.dart';
-import '../models/journal_database.dart';
+import '../../models/journal.dart';
+import '../../models/journal_database.dart';
 
-import '../fields/datetime_picker.dart';
-import '../fields/description_field.dart';
-import '../fields/blood_sugar_field.dart';
+import '../../fields/datetime_picker.dart';
+import '../../fields/description_field.dart';
+import '../../fields/weight_field.dart';
 import 'entry_page.dart';
 
-class BloodSugarPage extends StatefulWidget {
+class WeightPage extends StatefulWidget {
   final bool isEditMode;
-  final BloodSugar? entry;
+  final Weight? entry;
   final VoidCallback onSave;
   final VoidCallback onDelete;
-  const BloodSugarPage({
+  const WeightPage({
     super.key,
     required this.isEditMode,
     required this.entry,
@@ -22,11 +23,11 @@ class BloodSugarPage extends StatefulWidget {
   });
 
   @override
-  State<BloodSugarPage> createState() => _BloodSugarPageState();
+  State<WeightPage> createState() => _WeightPageState();
 }
 
-class _BloodSugarPageState extends State<BloodSugarPage> {
-  final TextEditingController _bloodSugarController = TextEditingController();
+class _WeightPageState extends State<WeightPage> {
+  final TextEditingController _weightController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   DateTime _selectedDateTime = DateTime.now();
   void _onDateTimeChanged(DateTime datetime) {
@@ -34,22 +35,21 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
       _selectedDateTime = datetime;
     });
   }
-
   @override
   void initState() {
     super.initState();
     _selectedDateTime = widget.entry?.dateTime ?? DateTime.now();
-    _bloodSugarController.text = widget.entry?.content ?? '5';
+    _weightController.text = widget.entry?.content ?? '70';
     _descriptionController.text = widget.entry?.description ?? '';
   }
 
   Future<void> _save() async {
-    BloodSugar entry = BloodSugar(
+    Weight entry = Weight(
         id: widget.entry?.id,
         dateTime: _selectedDateTime,
-        amount: double.parse(_bloodSugarController.text),
+        amount: double.parse(_weightController.text),
         description: _descriptionController.text);
-    final db = JournalDatabase();
+    final db = Provider.of<JournalDatabase>(context, listen: false);
     await db.saveJournalEntry(entry);
     widget.onSave();
     if (mounted) Navigator.pop(context);
@@ -58,7 +58,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
   @override
   Widget build(BuildContext context) {
     return EntryPage(
-      title: 'Blood sugar',
+      title: 'Weight',
       isEditMode: widget.isEditMode,
       entry: widget.entry,
       fields: [
@@ -66,7 +66,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
           initialDateTime: _selectedDateTime,
           onDateTimeChanged: _onDateTimeChanged,
         ),
-        BloodSugarField(controller: _bloodSugarController),
+        WeightField(controller: _weightController),
         DescriptionField(controller: _descriptionController),
       ],
       onSave: () async {
@@ -78,7 +78,7 @@ class _BloodSugarPageState extends State<BloodSugarPage> {
 
   @override
   void dispose() {
-    _bloodSugarController.dispose();
+    _weightController.dispose();
     _descriptionController.dispose();
     super.dispose();
   }

@@ -6,9 +6,9 @@ import '../widgets/add_button.dart';
 import '../widgets/journal_row.dart';
 
 import '../models/page_with_title.dart';
-import '../pages/blood_sugar_page.dart';
-import '../pages/meal_page.dart';
-import '../pages/weight_page.dart';
+import 'entries/blood_sugar_page.dart';
+import 'entries/meal_page.dart';
+import 'entries/weight_page.dart';
 
 import '../models/journal.dart';
 import '../models/journal_database.dart';
