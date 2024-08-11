@@ -27,8 +27,8 @@ class _JournalPageState extends State<JournalPage> {
   List<Journal> _entries = [];
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _db = Provider.of<JournalDatabase>(context, listen: false);
     _loadEntries();
   }
