@@ -42,7 +42,6 @@ class Meal implements JournalEntry {
   Icon get icon => const Icon(Icons.restaurant);
   @override
   final DateTime dateTime;
-  @override
   final String type;
   @override
   String get content => type;
