@@ -1,34 +1,18 @@
 import 'package:flutter/material.dart';
+import '../models/journal_models.dart';
 
 class AddButton extends StatefulWidget {
-  final VoidCallback onAddWeight;
-  final VoidCallback onAddMeal;
-  final VoidCallback onAddBloodSugar;
-  const AddButton({
-    super.key,
-    required this.onAddWeight,
-    required this.onAddMeal,
-    required this.onAddBloodSugar,
-  });
+  final void Function(String type) onAdd;
+  const AddButton({super.key, required this.onAdd});
 
   @override
   State<AddButton> createState() => _AddButtonState();
 }
 
 class _AddButtonState extends State<AddButton> {
-  void _addWeight() {
+  void _add(String type) {
     Navigator.pop(context);
-    widget.onAddWeight();
-  }
-
-  void _addMeal() {
-    Navigator.pop(context);
-    widget.onAddMeal();
-  }
-
-  void _addBloodSugar() {
-    Navigator.pop(context);
-    widget.onAddBloodSugar();
+    widget.onAdd(type);
   }
 
   void _showAddOptions(BuildContext context) {
@@ -39,19 +23,19 @@ class _AddButtonState extends State<AddButton> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: const Icon(Icons.fitness_center),
-              title: const Text('Weight'),
-              onTap: _addWeight,
+              leading: Weight.ICON,
+              title: Text(Weight.TITLE),
+              onTap: () => _add(Weight.TYPE),
             ),
             ListTile(
-              leading: const Icon(Icons.restaurant),
-              title: const Text('Meal'),
-              onTap: _addMeal,
+              leading: Meal.ICON,
+              title: Text(Meal.TITLE),
+              onTap: () => _add(Meal.TYPE),
             ),
             ListTile(
-              leading: const Icon(Icons.local_hospital),
-              title: const Text('Blood sugar'),
-              onTap: _addBloodSugar,
+              leading: BloodSugar.ICON,
+              title: Text(BloodSugar.TITLE),
+              onTap: () => _add(BloodSugar.TYPE),
             ),
             // Add more options here if needed
           ],

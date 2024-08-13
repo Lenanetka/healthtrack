@@ -23,18 +23,18 @@ class JournalDatabase extends _$JournalDatabase {
   @override
   int get schemaVersion => 1;
 
-  Future<void> saveJournalEntry(Journal journal) async {
-    final entry = JournalEntriesCompanion(
-      datetime: Value(journal.dateTime),
-      content: Value(journal.content),
-      description: Value(journal.description),
-      type: Value(journal.type),
+  Future<void> saveJournalEntry(EntryToSave entry) async {
+    final entryToSave = JournalEntriesCompanion(
+      datetime: Value(entry.dateTime),
+      content: Value(entry.content),
+      description: Value(entry.description),
+      type: Value(entry.type),
     );
-    if (journal.id == null) {
-      await into(journalEntries).insert(entry);
+    if (entry.id == null) {
+      await into(journalEntries).insert(entryToSave);
     } else {
-      await (update(journalEntries)..where((tbl) => tbl.id.equals(journal.id!)))
-          .write(entry);
+      await (update(journalEntries)..where((tbl) => tbl.id.equals(entry.id!)))
+          .write(entryToSave);
     }
   }
 
@@ -42,38 +42,20 @@ class JournalDatabase extends _$JournalDatabase {
     await (delete(journalEntries)..where((entry) => entry.id.equals(id))).go();
   }
 
-  Future<List<Journal>> getJournalByDate(DateTime from, DateTime to) async {
+  Future<List<Entry>> getJournalByDate(DateTime from, DateTime to) async {
     final entries = await (select(journalEntries)
           ..where((entry) => entry.datetime.isBetweenValues(from, to))
           ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)]))
         .get();
 
     return entries.map((entry) {
-      switch (entry.type) {
-        case JournalType.weight:
-          return Weight(
-            id: entry.id,
-            dateTime: entry.datetime,
-            amount: double.parse(entry.content),
-            description: entry.description ?? '',
-          );
-        case JournalType.bloodsugar:
-          return BloodSugar(
-            id: entry.id,
-            dateTime: entry.datetime,
-            amount: double.parse(entry.content),
-            description: entry.description ?? '',
-          );
-        case JournalType.meal:
-          return Meal(
-            id: entry.id,
-            dateTime: entry.datetime,
-            name: entry.content,
-            description: entry.description ?? '',
-          );
-        default:
-          throw Exception('Unknown journal entry type: ${entry.type}');
-      }
+      return EntryToSave(
+        id: entry.id,
+        dateTime: entry.datetime,
+        content: entry.content,
+        description: entry.description ?? '',
+        type: entry.type,
+      );
     }).toList();
   }
 }

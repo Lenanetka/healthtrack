@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/journal_models.dart';
 
 class JournalRow extends StatelessWidget {
-  final Journal entry;
+  final Entry entry;
   final VoidCallback onEdit;
 
   const JournalRow({
