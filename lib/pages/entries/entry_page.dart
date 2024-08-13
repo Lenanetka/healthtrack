@@ -46,9 +46,7 @@ class _EntryPageState extends State<EntryPage> {
           if (widget.isEditMode)
             IconButton(
               icon: const Icon(Icons.delete),
-              onPressed: () async {
-                await _delete();
-              },
+              onPressed: _delete,
             ),
         ],
       ),
