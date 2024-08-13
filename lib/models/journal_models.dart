@@ -10,6 +10,12 @@ abstract class Journal {
   String get type;
 }
 
+class JournalType {
+  static const String weight = 'weight';
+  static const String bloodsugar = 'bloodsugar';
+  static const String meal = 'meal';
+}
+
 class Weight implements Journal {
   @override
   Icon get icon => const Icon(Icons.fitness_center);
@@ -26,7 +32,7 @@ class Weight implements Journal {
   @override
   final String description;
   @override
-  String get type => 'weight';
+  String get type => JournalType.weight;
 
   Weight({required this.id, required this.dateTime, required this.amount, required this.description});
 }
@@ -47,7 +53,7 @@ class BloodSugar implements Journal {
   @override
   final String description;
   @override
-  String get type => 'bloodsugar';
+  String get type => JournalType.bloodsugar;
 
   BloodSugar({required this.id, required this.dateTime, required this.amount, required this.description});
 }
@@ -67,7 +73,7 @@ class Meal implements Journal {
   @override
   final String description;
   @override
-  String get type => 'meal';
+  String get type => JournalType.meal;
 
   Meal({required this.id, required this.dateTime, required this.name, required this.description});
 }

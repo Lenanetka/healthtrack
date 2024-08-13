@@ -13,7 +13,7 @@ class JournalEntries extends Table {
   DateTimeColumn get datetime => dateTime()();
   TextColumn get content => text()();
   TextColumn get description => text().nullable()();
-  TextColumn get type => text()(); // 'weight', 'meal', 'bloodsugar'
+  TextColumn get type => text()();
 }
 
 @DriftDatabase(tables: [JournalEntries])
@@ -50,21 +50,21 @@ class JournalDatabase extends _$JournalDatabase {
 
     return entries.map((entry) {
       switch (entry.type) {
-        case 'weight':
+        case JournalType.weight:
           return Weight(
             id: entry.id,
             dateTime: entry.datetime,
             amount: double.parse(entry.content),
             description: entry.description ?? '',
           );
-        case 'bloodsugar':
+        case JournalType.bloodsugar:
           return BloodSugar(
             id: entry.id,
             dateTime: entry.datetime,
             amount: double.parse(entry.content),
             description: entry.description ?? '',
           );
-        case 'meal':
+        case JournalType.meal:
           return Meal(
             id: entry.id,
             dateTime: entry.datetime,
