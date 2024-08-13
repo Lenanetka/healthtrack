@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/journal.dart';
+import '../../models/journal_models.dart';
 import '../../models/journal_database.dart';
 
 import '../../fields/datetime_picker.dart';

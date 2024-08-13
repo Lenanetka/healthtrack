@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'journal.dart';
+import 'journal_models.dart';
 
 part 'journal_database.g.dart';
 

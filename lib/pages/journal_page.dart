@@ -10,7 +10,7 @@ import 'entries/blood_sugar_page.dart';
 import 'entries/meal_page.dart';
 import 'entries/weight_page.dart';
 
-import '../models/journal.dart';
+import '../models/journal_models.dart';
 import '../models/journal_database.dart';
 
 class JournalPage extends StatefulWidget implements PageWithTitle {

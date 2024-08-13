@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/journal.dart';
+import '../models/journal_models.dart';
 
 class JournalRow extends StatelessWidget {
   final Journal entry;

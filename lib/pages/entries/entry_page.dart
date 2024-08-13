@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/journal.dart';
+import '../../models/journal_models.dart';
 import '../../models/journal_database.dart';
 
 class EntryPage extends StatefulWidget {
