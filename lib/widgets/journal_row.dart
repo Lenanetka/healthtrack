@@ -26,7 +26,7 @@ class JournalRow extends StatelessWidget {
         children: [
           Text(entry.displayedContent),
           Text(
-            formatTime(entry.dateTime),
+            formatTime(entry.datetime),
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ],

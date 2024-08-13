@@ -23,19 +23,25 @@ class JournalDatabase extends _$JournalDatabase {
   @override
   int get schemaVersion => 1;
 
-  Future<void> saveJournalEntry(EntryToSave entry) async {
-    final entryToSave = JournalEntriesCompanion(
-      datetime: Value(entry.dateTime),
+  Future<void> addJournalEntry(EntryDB entry) async {
+    final entryDB = JournalEntriesCompanion(
+      datetime: Value(entry.datetime),
       content: Value(entry.content),
       description: Value(entry.description),
       type: Value(entry.type),
     );
-    if (entry.id == null) {
-      await into(journalEntries).insert(entryToSave);
-    } else {
-      await (update(journalEntries)..where((tbl) => tbl.id.equals(entry.id!)))
-          .write(entryToSave);
-    }
+    await into(journalEntries).insert(entryDB);
+  }
+
+  Future<void> editJournalEntry(EntryDB entry) async {
+    final entryDB = JournalEntriesCompanion(
+      datetime: Value(entry.datetime),
+      content: Value(entry.content),
+      description: Value(entry.description),
+      type: Value(entry.type),
+    );
+    await (update(journalEntries)..where((tbl) => tbl.id.equals(entry.id!)))
+        .write(entryDB);
   }
 
   Future<void> deleteJournalEntry(int id) async {
@@ -49,9 +55,9 @@ class JournalDatabase extends _$JournalDatabase {
         .get();
 
     return entries.map((entry) {
-      return EntryToSave(
+      return EntryDB(
         id: entry.id,
-        dateTime: entry.datetime,
+        datetime: entry.datetime,
         content: entry.content,
         description: entry.description ?? '',
         type: entry.type,

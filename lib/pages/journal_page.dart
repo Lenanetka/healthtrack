@@ -46,7 +46,7 @@ class _JournalPageState extends State<JournalPage> {
 
     for (var entry in _entries) {
       final String formattedDate =
-          DateFormat('EEE, d MMM').format(entry.dateTime);
+          DateFormat('EEE, d MMM').format(entry.datetime);
       if (!groupedEntries.containsKey(formattedDate)) {
         groupedEntries[formattedDate] = [];
       }
@@ -66,7 +66,7 @@ class _JournalPageState extends State<JournalPage> {
   Future<void> _addPage(String type) async {
     await _openPage(AddEntryPage(
       type: type,
-      onSave: _loadEntries,
+      onChanges: _loadEntries,
     ));
   }
 

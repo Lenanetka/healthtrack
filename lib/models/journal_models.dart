@@ -5,7 +5,7 @@ abstract class Entry {
   String get defaultContent;
   String get title;
   int? get id;
-  DateTime get dateTime;
+  DateTime get datetime;
   String get content;
   String get displayedContent;
   String get description;
@@ -40,7 +40,7 @@ abstract class Entry {
   };
 }
 
-class EntryToSave implements Entry {
+class EntryDB implements Entry {
   @override
   Icon get icon => Entry.icons[type]!;
   @override
@@ -51,7 +51,7 @@ class EntryToSave implements Entry {
   @override
   final int? id;
   @override
-  final DateTime dateTime;
+  final DateTime datetime;
   @override
   final String content;
   @override
@@ -62,15 +62,15 @@ class EntryToSave implements Entry {
   @override
   final String type;
 
-  EntryToSave(
+  EntryDB(
       {this.id,
-      required this.dateTime,
+      required this.datetime,
       required this.content,
       required this.description,
       required this.type});
 }
 
-class Weight extends EntryToSave {
+class Weight extends EntryDB {
   static String TYPE = Entry.weight;
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
@@ -80,7 +80,7 @@ class Weight extends EntryToSave {
 
   Weight({
     super.id,
-    required super.dateTime,
+    required super.datetime,
     required this.amount,
     required super.description,
   }) : super(
@@ -89,7 +89,7 @@ class Weight extends EntryToSave {
         );
 }
 
-class BloodSugar extends EntryToSave {
+class BloodSugar extends EntryDB {
   static String TYPE = Entry.bloodsugar;
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
@@ -101,7 +101,7 @@ class BloodSugar extends EntryToSave {
 
   BloodSugar({
     super.id,
-    required super.dateTime,
+    required super.datetime,
     required this.amount,
     required super.description,
   }) : super(
@@ -110,7 +110,7 @@ class BloodSugar extends EntryToSave {
         );
 }
 
-class Meal extends EntryToSave {
+class Meal extends EntryDB {
   static String TYPE = Entry.meal;
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
@@ -134,7 +134,7 @@ class Meal extends EntryToSave {
 
   Meal({
     super.id,
-    required super.dateTime,
+    required super.datetime,
     required this.option,
     required super.description,
   }) : super(

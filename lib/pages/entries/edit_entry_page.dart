@@ -38,20 +38,20 @@ class _EditEntryPageState extends State<EditEntryPage> {
   @override
   void initState() {
     super.initState();
-    _selectedDateTime = DateTime.now();
-    _contentController.text = Entry.defaultContents[widget.entry.type]!;
-    _descriptionController.text = '';
+    _selectedDateTime = widget.entry.datetime;
+    _contentController.text = widget.entry.content;
+    _descriptionController.text = widget.entry.description;
   }
 
   Future<void> _save() async {
-    EntryToSave entry = EntryToSave(
+    EntryDB entry = EntryDB(
         id: widget.entry.id,
-        dateTime: _selectedDateTime,
+        datetime: _selectedDateTime,
         content: _contentController.text,
         description: _descriptionController.text,
         type: widget.entry.type);
     final db = Provider.of<JournalDatabase>(context, listen: false);
-    await db.saveJournalEntry(entry);
+    await db.editJournalEntry(entry);
     widget.onChanges();
     if (mounted) Navigator.pop(context);
   }
