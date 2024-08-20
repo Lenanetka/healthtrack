@@ -23,57 +23,49 @@ class JournalDatabase extends _$JournalDatabase {
   @override
   int get schemaVersion => 1;
 
-  Future<void> saveJournalEntry(Journal journal) async {
-    final entry = JournalEntriesCompanion(
-      datetime: Value(journal.dateTime),
-      content: Value(journal.content),
-      description: Value(journal.description),
-      type: Value(journal.type),
+  Future<void> addJournalEntry(EntryDB entry) async {
+    final entryDB = JournalEntriesCompanion(
+      datetime: Value(entry.datetime),
+      content: Value(entry.content),
+      description: Value(entry.description),
+      type: Value(entry.type),
     );
-    if (journal.id == null) {
-      await into(journalEntries).insert(entry);
-    } else {
-      await (update(journalEntries)..where((tbl) => tbl.id.equals(journal.id!)))
-          .write(entry);
-    }
+    await into(journalEntries).insert(entryDB);
+  }
+
+  Future<void> editJournalEntry(EntryDB entry) async {
+    final entryDB = JournalEntriesCompanion(
+      datetime: Value(entry.datetime),
+      content: Value(entry.content),
+      description: Value(entry.description),
+      type: Value(entry.type),
+    );
+    await (update(journalEntries)..where((tbl) => tbl.id.equals(entry.id!)))
+        .write(entryDB);
   }
 
   Future<void> deleteJournalEntry(int id) async {
     await (delete(journalEntries)..where((entry) => entry.id.equals(id))).go();
   }
 
-  Future<List<Journal>> getJournalByDate(DateTime from, DateTime to) async {
+  Future<List<Entry>> getJournalByDate(DateTime from, int page) async {
+    const size = 20;
+    final offset = (page - 1) * size;
+
     final entries = await (select(journalEntries)
-          ..where((entry) => entry.datetime.isBetweenValues(from, to))
-          ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)]))
-        .get();
+        ..where((entry) => entry.datetime.isSmallerOrEqualValue(from))
+        ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
+        ..limit(size, offset: offset))
+      .get();
 
     return entries.map((entry) {
-      switch (entry.type) {
-        case JournalType.weight:
-          return Weight(
-            id: entry.id,
-            dateTime: entry.datetime,
-            amount: double.parse(entry.content),
-            description: entry.description ?? '',
-          );
-        case JournalType.bloodsugar:
-          return BloodSugar(
-            id: entry.id,
-            dateTime: entry.datetime,
-            amount: double.parse(entry.content),
-            description: entry.description ?? '',
-          );
-        case JournalType.meal:
-          return Meal(
-            id: entry.id,
-            dateTime: entry.datetime,
-            name: entry.content,
-            description: entry.description ?? '',
-          );
-        default:
-          throw Exception('Unknown journal entry type: ${entry.type}');
-      }
+      return EntryDB(
+        id: entry.id,
+        datetime: entry.datetime,
+        content: entry.content,
+        description: entry.description ?? '',
+        type: entry.type,
+      );
     }).toList();
   }
 }
