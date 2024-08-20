@@ -33,9 +33,7 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   Future<void> _loadEntries() async {
-    DateTime now = DateTime.now();
-    DateTime oneMonthAgo = now.subtract(const Duration(days: 30));
-    final fetchedEntries = await _db.getJournalByDate(oneMonthAgo, now);
+    final fetchedEntries = await _db.getJournalByDate(DateTime.now(), 0);
     setState(() {
       _entries = fetchedEntries;
     });
