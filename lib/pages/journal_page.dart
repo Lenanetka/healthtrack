@@ -23,20 +23,35 @@ class JournalPage extends StatefulWidget implements PageWithTitle {
 
 class _JournalPageState extends State<JournalPage> {
   late JournalDatabase _db;
-  List<Entry> _entries = [];
+  final List<Entry> _entries = [];
+  final _scrollController = ScrollController();
+  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
     _db = Provider.of<JournalDatabase>(context, listen: false);
+    _scrollController.addListener(_loadMore);
     _loadEntries();
   }
 
+  void _loadMore() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      _loadEntries();
+    }
+  }
+
   Future<void> _loadEntries() async {
-    final fetchedEntries = await _db.getJournalByDate(DateTime.now(), 0);
-    setState(() {
-      _entries = fetchedEntries;
-    });
+    final fetchedEntries =
+        await _db.getJournalByDate(DateTime.now(), _currentPage + 1);
+
+    if (fetchedEntries.isNotEmpty) {
+      setState(() {
+        _currentPage++;
+        _entries.addAll(fetchedEntries);
+      });
+    }
   }
 
   Map<String, List<Entry>> _groupedEntries() {
@@ -54,6 +69,14 @@ class _JournalPageState extends State<JournalPage> {
     return groupedEntries;
   }
 
+  Future<void> _refreshEntries() async {
+    setState(() {
+      _entries.clear();
+      _currentPage = 0;
+    });
+    await _loadEntries();
+  }
+
   Future<void> _openPage(page) async {
     await Navigator.push(
       context,
@@ -64,14 +87,14 @@ class _JournalPageState extends State<JournalPage> {
   Future<void> _addPage(String type) async {
     await _openPage(AddEntryPage(
       type: type,
-      onChanges: _loadEntries,
+      onChanges: _refreshEntries,
     ));
   }
 
   Future<void> _editPage(Entry entry) async {
     await _openPage(EditEntryPage(
       entry: entry,
-      onChanges: _loadEntries,
+      onChanges: _refreshEntries,
     ));
   }
 
@@ -91,6 +114,7 @@ class _JournalPageState extends State<JournalPage> {
 
     Widget journalList() {
       return ListView.builder(
+        controller: _scrollController,
         itemCount: groupedEntries.length,
         itemBuilder: (context, index) {
           final date = groupedEntries.keys.elementAt(index);
@@ -125,5 +149,11 @@ class _JournalPageState extends State<JournalPage> {
         onAdd: (String type) => _addPage(type),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
