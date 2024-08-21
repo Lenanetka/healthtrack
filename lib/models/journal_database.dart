@@ -53,10 +53,10 @@ class JournalDatabase extends _$JournalDatabase {
     final offset = (page - 1) * size;
 
     final entries = await (select(journalEntries)
-        ..where((entry) => entry.datetime.isSmallerOrEqualValue(from))
-        ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
-        ..limit(size, offset: offset))
-      .get();
+          ..where((entry) => entry.datetime.isSmallerOrEqualValue(from))
+          ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
+          ..limit(size, offset: offset))
+        .get();
 
     return entries.map((entry) {
       return EntryDB(
@@ -67,6 +67,46 @@ class JournalDatabase extends _$JournalDatabase {
         type: entry.type,
       );
     }).toList();
+  }
+
+  Future<List<Entry>> getJournalByDateMocked(DateTime from, int page) async {
+    const size = 20;
+    final index = page * size;
+
+    List<EntryDB> entries = [];
+    for (int i = index; i < index + size; i++) {
+      switch (i % 3) {
+        case 0:
+          entries.add(EntryDB(
+            id: i,
+            datetime: from.subtract(Duration(days: i)),
+            content: (60 + i / 10).toString(),
+            description: "Index $i",
+            type: "weight",
+          ));
+          break;
+        case 1:
+          entries.add(EntryDB(
+            id: i,
+            datetime: from.subtract(Duration(days: i)),
+            content: (5 + i / 100).toString(),
+            description: "Index $i",
+            type: "bloodsugar",
+          ));
+          break;
+        case 2:
+          entries.add(EntryDB(
+            id: i,
+            datetime: from.subtract(Duration(days: i)),
+            content: "Snack",
+            description: "Index $i",
+            type: "meal",
+          ));
+          break;
+      }
+    }
+
+    return entries;
   }
 }
 
