@@ -43,8 +43,7 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   Future<void> _loadEntries() async {
-    final fetchedEntries =
-        await _db.getJournalByDate(_fromDateTime);
+    final fetchedEntries = await _db.getJournalByDate(_fromDateTime);
 
     if (fetchedEntries.isNotEmpty) {
       setState(() {
@@ -72,11 +71,13 @@ class _JournalPageState extends State<JournalPage> {
   Future<void> _addEntry(Entry entryToAdd) async {
     int index = _entries
         .indexWhere((entry) => entry.datetime.isBefore(entryToAdd.datetime));
-    if (index != -1) {
-      setState(() {
-         _entries.insert(index, entryToAdd);
-      });
-    }
+    setState(() {
+      if (index == -1) {
+        _entries.add(entryToAdd);
+      } else {
+        _entries.insert(index, entryToAdd);
+      }
+    });
   }
 
   Future<void> _updateEntry(Entry entryToUpdate) async {
