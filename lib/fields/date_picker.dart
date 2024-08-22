@@ -52,7 +52,7 @@ class _DatePickerState extends State<DatePicker> {
       onTap: () => _selectDate(context),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 1.0),
+          border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Padding(

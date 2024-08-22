@@ -165,7 +165,8 @@ class _JournalPageState extends State<JournalPage> {
         controller: _scrollController,
         itemCount: groupedEntries.length + 1,
         itemBuilder: (context, index) {
-          if (index == groupedEntries.length) return const SizedBox(height: 50.0);
+          if (index == groupedEntries.length)
+            return const SizedBox(height: 50.0);
 
           final date = groupedEntries.keys.elementAt(index);
           final entries = groupedEntries[date]!;
@@ -186,7 +187,10 @@ class _JournalPageState extends State<JournalPage> {
                   onEdit: () => _editPage(entry),
                 );
               }),
-              const Divider(thickness: 10.0, color: Colors.black26),
+              Divider(
+                thickness: 1.0,
+                color: Theme.of(context).dividerColor,
+              ),
             ],
           );
         },
