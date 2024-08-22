@@ -21,17 +21,25 @@ class JournalRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: entry.icon,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entry.displayedContent),
-          Text(
-            formatTime(entry.datetime),
-            style: Theme.of(context).textTheme.bodySmall,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(entry.displayedContent),
+              Text(formatTime(entry.datetime)),
+            ],
           ),
+          if (entry.description.isNotEmpty)
+            Text(
+              entry.description,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
         ],
       ),
-      subtitle: Text(entry.description),
       onTap: onEdit,
     );
   }

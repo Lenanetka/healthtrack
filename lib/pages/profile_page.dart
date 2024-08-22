@@ -20,9 +20,12 @@ class ProfilePage extends StatefulWidget implements PageWithTitle {
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController = TextEditingController(text: 'User');
-  final TextEditingController _heightController = TextEditingController(text: '180');
-  final TextEditingController _weightController = TextEditingController(text: '70');
+  final TextEditingController _nameController =
+      TextEditingController(text: 'User');
+  final TextEditingController _heightController =
+      TextEditingController(text: '180');
+  final TextEditingController _weightController =
+      TextEditingController(text: '70');
 
   @override
   void initState() {
@@ -31,11 +34,11 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> load() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  _nameController.text = prefs.getString('name') ?? 'User';
-  _heightController.text = (prefs.getDouble('height') ?? 180.0).toString();
-  _weightController.text = (prefs.getDouble('weight') ?? 70.0).toString();
-}
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _nameController.text = prefs.getString('name') ?? 'User';
+    _heightController.text = (prefs.getDouble('height') ?? 180.0).toString();
+    _weightController.text = (prefs.getDouble('weight') ?? 70.0).toString();
+  }
 
   Future<void> save() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,7 +74,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   }
                 },
-                child: const Text('Save'),
+                child: Text(
+                  'Save',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
             ],
           ),

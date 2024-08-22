@@ -163,8 +163,10 @@ class _JournalPageState extends State<JournalPage> {
     Widget journalList() {
       return ListView.builder(
         controller: _scrollController,
-        itemCount: groupedEntries.length,
+        itemCount: groupedEntries.length + 1,
         itemBuilder: (context, index) {
+          if (index == groupedEntries.length) return const SizedBox(height: 50.0);
+
           final date = groupedEntries.keys.elementAt(index);
           final entries = groupedEntries[date]!;
 
@@ -175,7 +177,7 @@ class _JournalPageState extends State<JournalPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   date,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
               ...entries.map((entry) {
@@ -184,7 +186,7 @@ class _JournalPageState extends State<JournalPage> {
                   onEdit: () => _editPage(entry),
                 );
               }),
-              const Divider(),
+              const Divider(thickness: 10.0, color: Colors.black26),
             ],
           );
         },

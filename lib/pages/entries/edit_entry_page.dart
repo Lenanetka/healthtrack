@@ -117,7 +117,10 @@ class _EditEntryPageState extends State<EditEntryPage> {
                     _save();
                   }
                 },
-                child: const Text('Save'),
+                child: Text(
+                  'Save',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
             ],
           ),
