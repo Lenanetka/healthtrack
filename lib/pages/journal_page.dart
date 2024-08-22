@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../fields/date_picker.dart';
+import '../fields/filter_journal.dart';
 
 import '../widgets/add_button.dart';
 import '../widgets/journal_row.dart';
@@ -127,6 +128,12 @@ class _JournalPageState extends State<JournalPage> {
     });
   }
 
+  Future<void> _filter(String type) async {
+    setState(() {
+      //Filter
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final groupedEntries = _groupedEntries();
@@ -135,16 +142,9 @@ class _JournalPageState extends State<JournalPage> {
       return AppBar(
         title: Row(
           children: [
-            DatePicker(initialDate: DateTime.now(), onDateChanged: _selectDate),
-            const Expanded(
-              child: SizedBox(width: 8),
-            ),
-            IconButton(
-              icon: const Icon(Icons.filter_list),
-              onPressed: () {
-                // Action when the filter button is pressed
-              },
-            ),
+            DatePicker(onDateChanged: _selectDate),
+            const SizedBox(width: 8),
+            FilterJournal(onFilterChanged: _filter),
           ],
         ),
       );

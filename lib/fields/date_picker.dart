@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DatePicker extends StatefulWidget {
-  final DateTime initialDate;
   final ValueChanged<DateTime> onDateChanged;
 
   const DatePicker({
-    required this.initialDate,
     required this.onDateChanged,
     super.key,
   });
@@ -20,7 +18,7 @@ class _DatePickerState extends State<DatePicker> {
   @override
   void initState() {
     super.initState();
-    _selectedDateTime = widget.initialDate;
+    _selectedDateTime = DateTime.now();
   }
 
   DateTime _selectedDate() {
@@ -45,25 +43,32 @@ class _DatePickerState extends State<DatePicker> {
 
   // Format the date as MM/DD/YYYY
   String _formatDate(DateTime date) {
-    return 'From: ${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
+    return 'Before: ${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}/${date.year}';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return InkWell(
+      onTap: () => _selectDate(context),
+      child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey, width: 1.0),
           borderRadius: BorderRadius.circular(12.0),
         ),
-        child: InkWell(
-          onTap: () => _selectDate(context),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              _formatDate(_selectedDate()),
-              style: const TextStyle(fontSize: 16.0),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              const Icon(Icons.calendar_today),
+              const SizedBox(width: 8.0),
+              Text(
+                _formatDate(_selectedDate()),
+                style: const TextStyle(fontSize: 16.0),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
