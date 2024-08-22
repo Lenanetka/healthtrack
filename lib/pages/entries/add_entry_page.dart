@@ -12,11 +12,11 @@ import '../../fields/meal_dropdown.dart';
 
 class AddEntryPage extends StatefulWidget {
   final String type;
-  final VoidCallback onChanges;
+  final Future<void> Function(Entry entry) onAdded;
   const AddEntryPage({
     super.key,
     required this.type,
-    required this.onChanges,
+    required this.onAdded,
   });
 
   @override
@@ -51,7 +51,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
         type: widget.type);
     final db = Provider.of<JournalDatabase>(context, listen: false);
     await db.addJournalEntry(entry);
-    widget.onChanges();
+    widget.onAdded(entry);
     if (mounted) Navigator.pop(context);
   }
 

@@ -25,7 +25,7 @@ class _JournalPageState extends State<JournalPage> {
   late JournalDatabase _db;
   final List<Entry> _entries = [];
   final _scrollController = ScrollController();
-  int _currentPage = 0;
+  DateTime _fromDateTime = DateTime.now();
 
   @override
   void initState() {
@@ -44,12 +44,12 @@ class _JournalPageState extends State<JournalPage> {
 
   Future<void> _loadEntries() async {
     final fetchedEntries =
-        await _db.getJournalByDate(DateTime.now(), _currentPage + 1);
+        await _db.getJournalByDate(_fromDateTime);
 
     if (fetchedEntries.isNotEmpty) {
       setState(() {
-        _currentPage++;
         _entries.addAll(fetchedEntries);
+        _fromDateTime = fetchedEntries.last.datetime;
       });
     }
   }
@@ -69,12 +69,29 @@ class _JournalPageState extends State<JournalPage> {
     return groupedEntries;
   }
 
-  Future<void> _refreshEntries() async {
+  Future<void> _addEntry(Entry entryToAdd) async {
+    int index = _entries
+        .indexWhere((entry) => entry.datetime.isBefore(entryToAdd.datetime));
+    if (index != -1) {
+      setState(() {
+         _entries.insert(index, entryToAdd);
+      });
+    }
+  }
+
+  Future<void> _updateEntry(Entry entryToUpdate) async {
+    final index = _entries.indexWhere((entry) => entry.id == entryToUpdate.id);
+    if (index != -1) {
+      setState(() {
+        _entries[index] = entryToUpdate;
+      });
+    }
+  }
+
+  Future<void> _removeEntry(Entry entryToDelete) async {
     setState(() {
-      _entries.clear();
-      _currentPage = 0;
+      _entries.removeWhere((entry) => entry.id == entryToDelete.id);
     });
-    await _loadEntries();
   }
 
   Future<void> _openPage(page) async {
@@ -87,14 +104,15 @@ class _JournalPageState extends State<JournalPage> {
   Future<void> _addPage(String type) async {
     await _openPage(AddEntryPage(
       type: type,
-      onChanges: _refreshEntries,
+      onAdded: (entry) => _addEntry(entry),
     ));
   }
 
   Future<void> _editPage(Entry entry) async {
     await _openPage(EditEntryPage(
       entry: entry,
-      onChanges: _refreshEntries,
+      onEdited: (entry) => _updateEntry(entry),
+      onDeleted: (entry) => _removeEntry(entry),
     ));
   }
 

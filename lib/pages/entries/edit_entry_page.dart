@@ -12,11 +12,13 @@ import '../../fields/meal_dropdown.dart';
 
 class EditEntryPage extends StatefulWidget {
   final Entry entry;
-  final VoidCallback onChanges;
+  final Future<void> Function(Entry entry) onEdited;
+  final Future<void> Function(Entry entry) onDeleted;
   const EditEntryPage({
     super.key,
     required this.entry,
-    required this.onChanges,
+    required this.onEdited,
+    required this.onDeleted,
   });
 
   @override
@@ -52,14 +54,14 @@ class _EditEntryPageState extends State<EditEntryPage> {
         type: widget.entry.type);
     final db = Provider.of<JournalDatabase>(context, listen: false);
     await db.editJournalEntry(entry);
-    widget.onChanges();
+    widget.onEdited(entry);
     if (mounted) Navigator.pop(context);
   }
 
   Future<void> _delete() async {
     final db = JournalDatabase();
     await db.deleteJournalEntry(widget.entry.id ?? 0);
-    widget.onChanges();
+    widget.onDeleted(widget.entry);
     if (mounted) Navigator.pop(context);
   }
 

@@ -48,14 +48,13 @@ class JournalDatabase extends _$JournalDatabase {
     await (delete(journalEntries)..where((entry) => entry.id.equals(id))).go();
   }
 
-  Future<List<Entry>> getJournalByDate(DateTime from, int page) async {
-    const size = 20;
-    final offset = (page - 1) * size;
+  Future<List<Entry>> getJournalByDate(DateTime from) async {
+    const size = 50;
 
     final entries = await (select(journalEntries)
-          ..where((entry) => entry.datetime.isSmallerOrEqualValue(from))
+          ..where((entry) => entry.datetime.isSmallerThanValue(from))
           ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
-          ..limit(size, offset: offset))
+          ..limit(size))
         .get();
 
     return entries.map((entry) {
@@ -69,12 +68,11 @@ class JournalDatabase extends _$JournalDatabase {
     }).toList();
   }
 
-  Future<List<Entry>> getJournalByDateMocked(DateTime from, int page) async {
-    const size = 20;
-    final index = page * size;
+  Future<List<Entry>> getJournalByDateMocked(DateTime from) async {
+    const size = 15;
 
     List<EntryDB> entries = [];
-    for (int i = index; i < index + size; i++) {
+    for (int i = 0; i < size; i++) {
       switch (i % 3) {
         case 0:
           entries.add(EntryDB(
