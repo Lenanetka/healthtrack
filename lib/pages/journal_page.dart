@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../fields/date_picker.dart';
+
 import '../widgets/add_button.dart';
 import '../widgets/journal_row.dart';
 
@@ -117,14 +119,41 @@ class _JournalPageState extends State<JournalPage> {
     ));
   }
 
+  Future<void> _selectDate(DateTime date) async {
+    setState(() {
+      _fromDateTime = date.add(const Duration(days: 1));
+      _entries.clear();
+      _loadEntries();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final groupedEntries = _groupedEntries();
 
+    AppBar appBar() {
+      return AppBar(
+        title: Row(
+          children: [
+            DatePicker(initialDate: DateTime.now(), onDateChanged: _selectDate),
+            const Expanded(
+              child: SizedBox(width: 8),
+            ),
+            IconButton(
+              icon: const Icon(Icons.filter_list),
+              onPressed: () {
+                // Action when the filter button is pressed
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget emptyList() {
       return Center(
         child: Text(
-          'No entries found. Please add some data.',
+          'No entries found.',
           style: Theme.of(context).textTheme.bodyLarge,
           textAlign: TextAlign.center,
         ),
@@ -163,6 +192,7 @@ class _JournalPageState extends State<JournalPage> {
     }
 
     return Scaffold(
+      appBar: appBar(),
       body: groupedEntries.isEmpty ? emptyList() : journalList(),
       floatingActionButton: AddButton(
         onAdd: (String type) => _addPage(type),
