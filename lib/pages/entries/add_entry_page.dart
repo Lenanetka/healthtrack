@@ -50,7 +50,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
         description: _descriptionController.text,
         type: widget.type);
     final db = Provider.of<JournalDatabase>(context, listen: false);
-    await db.addJournalEntry(entry);
+    entry.id = await db.addJournalEntry(entry);
     widget.onAdded(entry);
     if (mounted) Navigator.pop(context);
   }

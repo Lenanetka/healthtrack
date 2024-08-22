@@ -23,14 +23,14 @@ class JournalDatabase extends _$JournalDatabase {
   @override
   int get schemaVersion => 1;
 
-  Future<void> addJournalEntry(EntryDB entry) async {
+  Future<int> addJournalEntry(EntryDB entry) async {
     final entryDB = JournalEntriesCompanion(
       datetime: Value(entry.datetime),
       content: Value(entry.content),
       description: Value(entry.description),
       type: Value(entry.type),
     );
-    await into(journalEntries).insert(entryDB);
+    return await into(journalEntries).insert(entryDB);
   }
 
   Future<void> editJournalEntry(EntryDB entry) async {

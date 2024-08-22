@@ -49,7 +49,7 @@ class EntryDB implements Entry {
   String get title => Entry.titles[type]!;
 
   @override
-  final int? id;
+  int? id;
   @override
   final DateTime datetime;
   @override
