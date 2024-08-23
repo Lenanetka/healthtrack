@@ -67,45 +67,6 @@ class JournalDatabase extends _$JournalDatabase {
       );
     }).toList();
   }
-
-  Future<List<Entry>> getJournalByDateMocked(DateTime from) async {
-    const size = 15;
-
-    List<EntryDB> entries = [];
-    for (int i = 0; i < size; i++) {
-      switch (i % 3) {
-        case 0:
-          entries.add(EntryDB(
-            id: i,
-            datetime: from.subtract(Duration(days: i)),
-            content: (60 + i / 10).toString(),
-            description: "Index $i",
-            type: "weight",
-          ));
-          break;
-        case 1:
-          entries.add(EntryDB(
-            id: i,
-            datetime: from.subtract(Duration(days: i)),
-            content: (5 + i / 100).toString(),
-            description: "Index $i",
-            type: "bloodsugar",
-          ));
-          break;
-        case 2:
-          entries.add(EntryDB(
-            id: i,
-            datetime: from.subtract(Duration(days: i)),
-            content: "Snack",
-            description: "Index $i",
-            type: "meal",
-          ));
-          break;
-      }
-    }
-
-    return entries;
-  }
 }
 
 LazyDatabase _openConnection() {
