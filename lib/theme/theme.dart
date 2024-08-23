@@ -25,6 +25,9 @@ ThemeData lightMode = ThemeData.light().copyWith(
     selectedIconTheme: const IconThemeData(color: PaletteLight.primaryColor),
     showUnselectedLabels: true,
   ),
+  drawerTheme: const DrawerThemeData(
+    backgroundColor: PaletteLight.backgroundColor,
+  ),
 );
 
 ThemeData darkMode = ThemeData.dark().copyWith(
@@ -48,5 +51,8 @@ ThemeData darkMode = ThemeData.dark().copyWith(
     unselectedItemColor: PaletteDark.contentColor.withOpacity(0.32),
     selectedIconTheme: const IconThemeData(color: PaletteDark.primaryColor),
     showUnselectedLabels: true,
+  ),
+  drawerTheme: const DrawerThemeData(
+    backgroundColor: PaletteDark.backgroundColor,
   ),
 );
