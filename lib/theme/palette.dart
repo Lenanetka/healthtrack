@@ -10,10 +10,10 @@ class PaletteLight {
 }
 
 class PaletteDark {
-  static const primaryColor = Color.fromARGB(255, 163, 78, 216);
+  static const primaryColor = Color(0xFFA34ED8);
   static const secondaryColor = Color(0xFFFE9901);
-  static const backgroundColor = Color(0xFF1D1D35);
-  static const contentColor = Color.fromARGB(255, 250, 245, 252);
+  static const backgroundColor = Color(0xFF303030);
+  static const contentColor = Color(0xFFE0E0E0);
   static const warninngColor = Color(0xFFF3BB1C);
   static const errorColor = Color(0xFFF03738);
 }
