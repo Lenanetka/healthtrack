@@ -18,7 +18,8 @@ class MealDropdownState extends State<MealDropdown> {
   @override
   void initState() {
     super.initState();
-    _selectedMealType = widget.initialMealType ?? Meal.names.first;
+
+    _selectedMealType = widget.initialMealType ?? Meal.options.first;
   }
 
   @override
@@ -32,10 +33,10 @@ class MealDropdownState extends State<MealDropdown> {
         });
         widget.onChanged(value!);
       },
-      items: Meal.names.map<DropdownMenuItem<String>>((String value) {
+      items: Meal.options.map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem(
           value: value,
-          child: Text(value),
+          child: Text(Meal.nameByOption[value]!),
         );
       }).toList(),
     );

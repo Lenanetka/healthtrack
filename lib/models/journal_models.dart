@@ -56,7 +56,7 @@ class EntryDB implements Entry {
   final String content;
   @override
   String get displayedContent =>
-      Entry.units[type] != null ? '$content ${Entry.units[type]!}' : content;
+      Entry.units[type] != null ? '$content ${Entry.units[type]!}' : Meal.nameByOption[content] ?? content;
   @override
   final String description;
   @override

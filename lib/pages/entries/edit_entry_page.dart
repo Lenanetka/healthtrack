@@ -73,6 +73,7 @@ class _EditEntryPageState extends State<EditEntryPage> {
         return BloodSugarField(controller: _contentController);
       case Entry.meal:
         return MealDropdown(
+          initialMealType: widget.entry.content,
           onChanged: (value) => _contentController.text = value,
         );
       default:

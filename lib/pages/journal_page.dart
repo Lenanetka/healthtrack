@@ -169,8 +169,9 @@ class _JournalPageState extends State<JournalPage> {
         controller: _scrollController,
         itemCount: groupedEntries.length + 1,
         itemBuilder: (context, index) {
-          if (index == groupedEntries.length)
+          if (index == groupedEntries.length) {
             return const SizedBox(height: 50.0);
+          }
 
           final date = groupedEntries.keys.elementAt(index);
           final entries = groupedEntries[date]!;
