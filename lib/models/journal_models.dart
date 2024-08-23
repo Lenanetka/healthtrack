@@ -11,17 +11,20 @@ abstract class Entry {
   String get description;
   String get type;
 
+  static const String all = 'all';
   static const String weight = 'weight';
   static const String bloodsugar = 'bloodsugar';
   static const String meal = 'meal';
 
   static const Map<String, Icon> icons = {
-    weight: Icon(Icons.fitness_center),
-    bloodsugar: Icon(Icons.local_hospital),
-    meal: Icon(Icons.restaurant),
+    all: Icon(Icons.filter_list),
+    weight: Icon(Icons.monitor_weight),
+    bloodsugar: Icon(Icons.opacity),
+    meal: Icon(Icons.restaurant_menu),
   };
 
   static const Map<String, String> titles = {
+    all: 'All',
     weight: 'Weight',
     bloodsugar: 'Blood sugar',
     meal: 'Meal',
@@ -55,8 +58,9 @@ class EntryDB implements Entry {
   @override
   final String content;
   @override
-  String get displayedContent =>
-      Entry.units[type] != null ? '$content ${Entry.units[type]!}' : Meal.nameByOption[content] ?? content;
+  String get displayedContent => Entry.units[type] != null
+      ? '$content ${Entry.units[type]!}'
+      : Meal.nameByOption[content] ?? content;
   @override
   final String description;
   @override
@@ -75,7 +79,7 @@ class Weight extends EntryDB {
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
   static String get TITLE => Entry.titles[TYPE]!;
-  
+
   final double amount;
 
   Weight({
@@ -117,9 +121,6 @@ class Meal extends EntryDB {
   static String get TITLE => Entry.titles[TYPE]!;
 
   final String option;
-
-  @override
-  String get displayedContent => nameByOption[option]!;
 
   static const String breakfast = 'breakfast';
   static const String lunch = 'lunch';
