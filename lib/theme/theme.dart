@@ -4,13 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 const appBarTheme = AppBarTheme(centerTitle: false, elevation: 0);
 
-ThemeData lightThemeData(BuildContext context) {
-  return ThemeData.light().copyWith(
+ThemeData lightMode = ThemeData.light().copyWith(
     primaryColor: PaletteLight.primaryColor,
     scaffoldBackgroundColor: PaletteLight.backgroundColor,
     appBarTheme: appBarTheme.copyWith(backgroundColor: PaletteLight.backgroundColor),
     iconTheme: const IconThemeData(color: PaletteLight.contentColor),
-    textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme)
+    textTheme: GoogleFonts.interTextTheme()
         .apply(bodyColor: PaletteLight.contentColor),
     colorScheme: const ColorScheme.light(
       primary: PaletteLight.primaryColor,
@@ -25,15 +24,13 @@ ThemeData lightThemeData(BuildContext context) {
       showUnselectedLabels: true,
     ),
   );
-}
 
-ThemeData darkThemeData(BuildContext context) {
-  return ThemeData.dark().copyWith(
+ThemeData darkMode = ThemeData.dark().copyWith(
     primaryColor: PaletteDark.primaryColor,
     scaffoldBackgroundColor: PaletteDark.backgroundColor,
     appBarTheme: appBarTheme.copyWith(backgroundColor: PaletteDark.backgroundColor),
     iconTheme: const IconThemeData(color: PaletteDark.contentColor),
-    textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme)
+    textTheme: GoogleFonts.interTextTheme()
         .apply(bodyColor: PaletteDark.contentColor),
     colorScheme: const ColorScheme.dark().copyWith(
       primary: PaletteDark.primaryColor,
@@ -48,5 +45,4 @@ ThemeData darkThemeData(BuildContext context) {
       showUnselectedLabels: true,
     ),
   );
-}
 

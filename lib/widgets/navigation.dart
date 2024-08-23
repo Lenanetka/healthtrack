@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/page_with_title.dart';
 import '../pages/journal_page.dart';
 import '../pages/profile_page.dart';
+import '../pages/settings_page.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -17,6 +18,7 @@ class NavigationState extends State<Navigation> {
   final List<PageWithTitle> _pages = [
     const JournalPage(),
     const ProfilePage(),
+    const SettingsPage(),
   ];
 
   void _open(pageKey) {
