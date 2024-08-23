@@ -50,7 +50,11 @@ class _JournalPageState extends State<JournalPage> {
 
     if (fetchedEntries.isNotEmpty) {
       setState(() {
-        _entries.addAll(fetchedEntries);
+        for (var entry in fetchedEntries) {
+          if (!_entries.any((e) => e.id == entry.id)) {
+            _entries.add(entry);
+          }
+        }
         _fromDateTime = fetchedEntries.last.datetime;
       });
     }
