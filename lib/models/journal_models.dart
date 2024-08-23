@@ -32,7 +32,7 @@ abstract class Entry {
   static Map<String, String> defaultContents = {
     weight: '70',
     bloodsugar: '5',
-    meal: Meal.nameByOption[Meal.breakfast]!,
+    meal: Meal.breakfast,
   };
 
   static const Map<String, String?> units = {

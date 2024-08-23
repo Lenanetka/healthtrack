@@ -18,7 +18,6 @@ class MealDropdownState extends State<MealDropdown> {
   @override
   void initState() {
     super.initState();
-
     _selectedMealType = widget.initialMealType ?? Meal.options.first;
   }
 
