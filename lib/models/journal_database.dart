@@ -48,11 +48,31 @@ class JournalDatabase extends _$JournalDatabase {
     await (delete(journalEntries)..where((entry) => entry.id.equals(id))).go();
   }
 
-  Future<List<Entry>> getJournalByDate(DateTime from) async {
-    const size = 50;
+  final size = 50;
 
+  Future<List<Entry>> getJournalByDate(DateTime from) async {
     final entries = await (select(journalEntries)
           ..where((entry) => entry.datetime.isSmallerThanValue(from))
+          ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
+          ..limit(size))
+        .get();
+
+    return entries.map((entry) {
+      return EntryDB(
+        id: entry.id,
+        datetime: entry.datetime,
+        content: entry.content,
+        description: entry.description ?? '',
+        type: entry.type,
+      );
+    }).toList();
+  }
+
+  Future<List<Entry>> getJournalFiltered(DateTime from, String option) async {
+    if (option == Entry.all) return await getJournalByDate(from);
+    final entries = await (select(journalEntries)
+          ..where((entry) => entry.datetime.isSmallerThanValue(from))
+          ..where((entry) => entry.type.equals(option))
           ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
           ..limit(size))
         .get();

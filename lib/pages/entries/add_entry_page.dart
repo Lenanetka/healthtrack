@@ -85,7 +85,7 @@ class _AddEntryPageState extends State<AddEntryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Entry.titles[widget.type]!),
+        title: Text(Entry.nameByOption[widget.type]!),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

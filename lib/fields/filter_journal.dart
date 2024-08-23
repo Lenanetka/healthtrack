@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../models/journal_models.dart';
 
 class FilterJournal extends StatefulWidget {
   final ValueChanged<String> onFilterChanged;
@@ -14,46 +15,51 @@ class FilterJournal extends StatefulWidget {
 
 class _FilterJournalState extends State<FilterJournal> {
   late String _selectedFilter;
-  //all, weight, bloodsugar or meal can be selected
 
   @override
   void initState() {
     super.initState();
-    _selectedFilter = 'mocked';
+    _selectedFilter = Entry.all;
   }
 
-  Future<void> _filter(BuildContext context) async {
-    //ADD Select in popup
-    final String? pickedFilter = 'mocked';
-    if (pickedFilter != null && pickedFilter != _selectedFilter) {
-      setState(() {
-        _selectedFilter = pickedFilter;
-      });
+  void _onFilterSelected(String filter) {
+    if (filter != _selectedFilter) {
+      setState(() => _selectedFilter = filter);
       widget.onFilterChanged(_selectedFilter);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => _filter(context),
+    return PopupMenuButton<String>(
+      onSelected: _onFilterSelected,
+      initialValue: _selectedFilter,
+      itemBuilder: (context) {
+        return Entry.names.map((entry) {
+          return PopupMenuItem<String>(
+            value: Entry.optionByName[entry],
+            child: Row(
+              children: [
+                Entry.icons[Entry.optionByName[entry]]!,
+                const SizedBox(width: 8.0),
+                Text(entry),
+              ],
+            ),
+          );
+        }).toList();
+      },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 1.0, color: Theme.of(context).dividerColor),
+          border: Border.all(color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(12.0),
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Icon(Icons.filter_list),
-              SizedBox(width: 8.0),
-              Text(
-                'Filter',
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ],
-          ),
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Entry.icons[_selectedFilter]!,
+            const SizedBox(width: 8.0),
+            const Text('Filter', style: TextStyle(fontSize: 16.0)),
+          ],
         ),
       ),
     );

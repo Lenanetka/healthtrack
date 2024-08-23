@@ -96,7 +96,7 @@ class _EditEntryPageState extends State<EditEntryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Entry.titles[widget.entry.type]!),
+        title: Text(Entry.nameByOption[widget.entry.type]!),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),

@@ -23,12 +23,11 @@ abstract class Entry {
     meal: Icon(Icons.restaurant_menu),
   };
 
-  static const Map<String, String> titles = {
-    all: 'All',
-    weight: 'Weight',
-    bloodsugar: 'Blood sugar',
-    meal: 'Meal',
-  };
+  static const List<String> options = [all, weight, bloodsugar, meal];
+  static const List<String> names = ['All', 'Weight', 'Blood sugar', 'Meal'];
+
+  static Map<String, String> nameByOption = Map.fromIterables(options, names);
+  static Map<String, String> optionByName = Map.fromIterables(names, options);
 
   static Map<String, String> defaultContents = {
     weight: '70',
@@ -49,7 +48,7 @@ class EntryDB implements Entry {
   @override
   String get defaultContent => Entry.defaultContents[type]!;
   @override
-  String get title => Entry.titles[type]!;
+  String get title => Entry.nameByOption[type]!;
 
   @override
   int? id;
@@ -78,7 +77,7 @@ class Weight extends EntryDB {
   static String TYPE = Entry.weight;
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
-  static String get TITLE => Entry.titles[TYPE]!;
+  static String get TITLE => Entry.nameByOption[TYPE]!;
 
   final double amount;
 
@@ -97,7 +96,7 @@ class BloodSugar extends EntryDB {
   static String TYPE = Entry.bloodsugar;
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
-  static String get TITLE => Entry.titles[TYPE]!;
+  static String get TITLE => Entry.nameByOption[TYPE]!;
 
   final double amount;
   @override
@@ -118,7 +117,7 @@ class Meal extends EntryDB {
   static String TYPE = Entry.meal;
   static Icon get ICON => Entry.icons[TYPE]!;
   static String get DEFAULT => Entry.defaultContents[TYPE]!;
-  static String get TITLE => Entry.titles[TYPE]!;
+  static String get TITLE => Entry.nameByOption[TYPE]!;
 
   final String option;
 

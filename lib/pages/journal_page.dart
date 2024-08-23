@@ -29,6 +29,7 @@ class _JournalPageState extends State<JournalPage> {
   final List<Entry> _entries = [];
   final _scrollController = ScrollController();
   DateTime _fromDateTime = DateTime.now();
+  String _filterOption = Entry.all;
 
   @override
   void initState() {
@@ -46,7 +47,8 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   Future<void> _loadEntries() async {
-    final fetchedEntries = await _db.getJournalByDate(_fromDateTime);
+    final fetchedEntries =
+        await _db.getJournalFiltered(_fromDateTime, _filterOption);
 
     if (fetchedEntries.isNotEmpty) {
       setState(() {
@@ -76,6 +78,7 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   Future<void> _addEntry(Entry entryToAdd) async {
+    if (_filterOption != Entry.all && entryToAdd.type != _filterOption) return;
     int index = _entries
         .indexWhere((entry) => entry.datetime.isBefore(entryToAdd.datetime));
     setState(() {
@@ -132,9 +135,12 @@ class _JournalPageState extends State<JournalPage> {
     });
   }
 
-  Future<void> _filter(String type) async {
+  Future<void> _filter(String option) async {
     setState(() {
-      //Filter
+      _filterOption = option;
+      _fromDateTime = DateTime.now();
+      _entries.clear();
+      _loadEntries();
     });
   }
 
