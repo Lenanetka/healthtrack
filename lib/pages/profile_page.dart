@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/page_with_title.dart';
+import '../widgets/bmi_widget.dart';
 import '../models/journal_models.dart';
-import '../models/journal_database.dart';
 
 import '../fields/height_field.dart';
 import '../fields/name_field.dart';
 import '../fields/weight_field.dart';
-
-import '../widgets/bmi_widget.dart';
 
 class ProfilePage extends StatefulWidget implements PageWithTitle {
   const ProfilePage({super.key});
@@ -23,34 +20,24 @@ class ProfilePage extends StatefulWidget implements PageWithTitle {
 
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  late JournalDatabase _db;
 
   final TextEditingController _nameController =
       TextEditingController(text: 'User');
   final TextEditingController _heightController =
-      TextEditingController(text: '180');
+      TextEditingController(text: '170');
   final TextEditingController _weightController =
-      TextEditingController(text: '70');
+      TextEditingController(text: Entry.defaultContents[Entry.weight]);
 
   @override
   void initState() {
     super.initState();
-    _db = Provider.of<JournalDatabase>(context, listen: false);
     load();
   }
 
   Future<void> load() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     _nameController.text = prefs.getString('name') ?? 'User';
-    _heightController.text = (prefs.getDouble('height') ?? 180.0).toString();
-    _weightController.text = await _loadLastWeight();
-  }
-
-  Future<String> _loadLastWeight() async {
-    final fetchedEntries =
-        await _db.getJournalFiltered(DateTime.now(), Entry.weight);
-    if (fetchedEntries.isEmpty) return '70';
-    return fetchedEntries.first.content;
+    _heightController.text = (prefs.getDouble('height') ?? 170.0).toString();
   }
 
   Future<void> save() async {
