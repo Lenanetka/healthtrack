@@ -3,81 +3,63 @@
 part of 'journal_database.dart';
 
 // ignore_for_file: type=lint
-class $JournalEntriesTable extends JournalEntries
-    with TableInfo<$JournalEntriesTable, JournalEntry> {
+class $JournalEntriesTable extends JournalEntries with TableInfo<$JournalEntriesTable, JournalEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $JournalEntriesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>('id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _datetimeMeta =
-      const VerificationMeta('datetime');
+      defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _datetimeMeta = const VerificationMeta('datetime');
   @override
-  late final GeneratedColumn<DateTime> datetime = GeneratedColumn<DateTime>(
-      'datetime', aliasedName, false,
+  late final GeneratedColumn<DateTime> datetime = GeneratedColumn<DateTime>('datetime', aliasedName, false,
       type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _contentMeta =
-      const VerificationMeta('content');
+  static const VerificationMeta _contentMeta = const VerificationMeta('content');
   @override
-  late final GeneratedColumn<String> content = GeneratedColumn<String>(
-      'content', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
+  late final GeneratedColumn<String> content =
+      GeneratedColumn<String>('content', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta = const VerificationMeta('description');
   @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<String> description =
+      GeneratedColumn<String>('description', aliasedName, true, type: DriftSqlType.string, requiredDuringInsert: false);
   static const VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> type =
+      GeneratedColumn<String>('type', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, datetime, content, description, type];
+  List<GeneratedColumn> get $columns => [id, datetime, content, description, type];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'journal_entries';
   @override
-  VerificationContext validateIntegrity(Insertable<JournalEntry> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<JournalEntry> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('datetime')) {
-      context.handle(_datetimeMeta,
-          datetime.isAcceptableOrUnknown(data['datetime']!, _datetimeMeta));
+      context.handle(_datetimeMeta, datetime.isAcceptableOrUnknown(data['datetime']!, _datetimeMeta));
     } else if (isInserting) {
       context.missing(_datetimeMeta);
     }
     if (data.containsKey('content')) {
-      context.handle(_contentMeta,
-          content.isAcceptableOrUnknown(data['content']!, _contentMeta));
+      context.handle(_contentMeta, content.isAcceptableOrUnknown(data['content']!, _contentMeta));
     } else if (isInserting) {
       context.missing(_contentMeta);
     }
     if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
+      context.handle(_descriptionMeta, description.isAcceptableOrUnknown(data['description']!, _descriptionMeta));
     }
     if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+      context.handle(_typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
@@ -90,16 +72,11 @@ class $JournalEntriesTable extends JournalEntries
   JournalEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return JournalEntry(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      datetime: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}datetime'])!,
-      content: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}content'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      id: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      datetime: attachedDatabase.typeMapping.read(DriftSqlType.dateTime, data['${effectivePrefix}datetime'])!,
+      content: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}content'])!,
+      description: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}description']),
+      type: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}type'])!,
     );
   }
 
@@ -116,11 +93,7 @@ class JournalEntry extends DataClass implements Insertable<JournalEntry> {
   final String? description;
   final String type;
   const JournalEntry(
-      {required this.id,
-      required this.datetime,
-      required this.content,
-      this.description,
-      required this.type});
+      {required this.id, required this.datetime, required this.content, this.description, required this.type});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -139,15 +112,12 @@ class JournalEntry extends DataClass implements Insertable<JournalEntry> {
       id: Value(id),
       datetime: Value(datetime),
       content: Value(content),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
+      description: description == null && nullToAbsent ? const Value.absent() : Value(description),
       type: Value(type),
     );
   }
 
-  factory JournalEntry.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
+  factory JournalEntry.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return JournalEntry(
       id: serializer.fromJson<int>(json['id']),
@@ -187,8 +157,7 @@ class JournalEntry extends DataClass implements Insertable<JournalEntry> {
       id: data.id.present ? data.id.value : this.id,
       datetime: data.datetime.present ? data.datetime.value : this.datetime,
       content: data.content.present ? data.content.value : this.content,
-      description:
-          data.description.present ? data.description.value : this.description,
+      description: data.description.present ? data.description.value : this.description,
       type: data.type.present ? data.type.value : this.type,
     );
   }
@@ -310,22 +279,19 @@ abstract class _$JournalDatabase extends GeneratedDatabase {
   $JournalDatabaseManager get managers => $JournalDatabaseManager(this);
   late final $JournalEntriesTable journalEntries = $JournalEntriesTable(this);
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables =>
-      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [journalEntries];
 }
 
-typedef $$JournalEntriesTableCreateCompanionBuilder = JournalEntriesCompanion
-    Function({
+typedef $$JournalEntriesTableCreateCompanionBuilder = JournalEntriesCompanion Function({
   Value<int> id,
   required DateTime datetime,
   required String content,
   Value<String?> description,
   required String type,
 });
-typedef $$JournalEntriesTableUpdateCompanionBuilder = JournalEntriesCompanion
-    Function({
+typedef $$JournalEntriesTableUpdateCompanionBuilder = JournalEntriesCompanion Function({
   Value<int> id,
   Value<DateTime> datetime,
   Value<String> content,
@@ -341,15 +307,12 @@ class $$JournalEntriesTableTableManager extends RootTableManager<
     $$JournalEntriesTableOrderingComposer,
     $$JournalEntriesTableCreateCompanionBuilder,
     $$JournalEntriesTableUpdateCompanionBuilder> {
-  $$JournalEntriesTableTableManager(
-      _$JournalDatabase db, $JournalEntriesTable table)
+  $$JournalEntriesTableTableManager(_$JournalDatabase db, $JournalEntriesTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$JournalEntriesTableFilterComposer(ComposerState(db, table)),
-          orderingComposer:
-              $$JournalEntriesTableOrderingComposer(ComposerState(db, table)),
+          filteringComposer: $$JournalEntriesTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$JournalEntriesTableOrderingComposer(ComposerState(db, table)),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<DateTime> datetime = const Value.absent(),
@@ -381,67 +344,51 @@ class $$JournalEntriesTableTableManager extends RootTableManager<
         ));
 }
 
-class $$JournalEntriesTableFilterComposer
-    extends FilterComposer<_$JournalDatabase, $JournalEntriesTable> {
+class $$JournalEntriesTableFilterComposer extends FilterComposer<_$JournalDatabase, $JournalEntriesTable> {
   $$JournalEntriesTableFilterComposer(super.$state);
   ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 
   ColumnFilters<DateTime> get datetime => $state.composableBuilder(
       column: $state.table.datetime,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 
   ColumnFilters<String> get content => $state.composableBuilder(
       column: $state.table.content,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 
   ColumnFilters<String> get description => $state.composableBuilder(
       column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 
   ColumnFilters<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
+      column: $state.table.type, builder: (column, joinBuilders) => ColumnFilters(column, joinBuilders: joinBuilders));
 }
 
-class $$JournalEntriesTableOrderingComposer
-    extends OrderingComposer<_$JournalDatabase, $JournalEntriesTable> {
+class $$JournalEntriesTableOrderingComposer extends OrderingComposer<_$JournalDatabase, $JournalEntriesTable> {
   $$JournalEntriesTableOrderingComposer(super.$state);
   ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+      column: $state.table.id, builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 
   ColumnOrderings<DateTime> get datetime => $state.composableBuilder(
       column: $state.table.datetime,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 
   ColumnOrderings<String> get content => $state.composableBuilder(
       column: $state.table.content,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 
   ColumnOrderings<String> get description => $state.composableBuilder(
       column: $state.table.description,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 
   ColumnOrderings<String> get type => $state.composableBuilder(
       column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
+      builder: (column, joinBuilders) => ColumnOrderings(column, joinBuilders: joinBuilders));
 }
 
 class $JournalDatabaseManager {
   final _$JournalDatabase _db;
   $JournalDatabaseManager(this._db);
-  $$JournalEntriesTableTableManager get journalEntries =>
-      $$JournalEntriesTableTableManager(_db, _db.journalEntries);
+  $$JournalEntriesTableTableManager get journalEntries => $$JournalEntriesTableTableManager(_db, _db.journalEntries);
 }

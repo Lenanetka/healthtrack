@@ -40,8 +40,7 @@ class JournalDatabase extends _$JournalDatabase {
       description: Value(entry.description),
       type: Value(entry.type),
     );
-    await (update(journalEntries)..where((tbl) => tbl.id.equals(entry.id!)))
-        .write(entryDB);
+    await (update(journalEntries)..where((tbl) => tbl.id.equals(entry.id!))).write(entryDB);
   }
 
   Future<void> deleteJournalEntry(int id) async {

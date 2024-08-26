@@ -53,14 +53,12 @@ class ThemeSwitcher extends StatelessWidget {
               Container(
                 alignment: Alignment.center,
                 width: buttonWidth(context),
-                child: _buildToggleButton(
-                    const Icon(Icons.nightlight_round), 'Dark'),
+                child: _buildToggleButton(const Icon(Icons.nightlight_round), 'Dark'),
               ),
               Container(
                 alignment: Alignment.center,
                 width: buttonWidth(context),
-                child: _buildToggleButton(
-                    const Icon(Icons.phone_iphone), 'System'),
+                child: _buildToggleButton(const Icon(Icons.phone_iphone), 'System'),
               ),
             ],
           ),

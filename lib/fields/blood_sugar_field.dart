@@ -18,13 +18,9 @@ class BloodSugarField extends StatelessWidget {
       ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your blood sugar';
-        }
+        if (value == null || value.isEmpty) return 'Please enter your blood sugar';
         final double? bloodSugar = double.tryParse(value);
-        if (bloodSugar == null || bloodSugar <= 0) {
-          return 'Please enter a valid blood sugar';
-        }
+        if (bloodSugar == null || bloodSugar <= 0) return 'Please enter a valid blood sugar';
         return null;
       },
     );

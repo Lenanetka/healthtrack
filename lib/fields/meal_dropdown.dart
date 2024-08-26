@@ -5,8 +5,7 @@ class MealDropdown extends StatefulWidget {
   final String? initialMealType;
   final ValueChanged<String> onChanged;
 
-  const MealDropdown(
-      {this.initialMealType, required this.onChanged, super.key});
+  const MealDropdown({this.initialMealType, required this.onChanged, super.key});
 
   @override
   MealDropdownState createState() => MealDropdownState();

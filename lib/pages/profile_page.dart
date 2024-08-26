@@ -21,12 +21,9 @@ class ProfilePage extends StatefulWidget implements PageWithTitle {
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController =
-      TextEditingController(text: 'User');
-  final TextEditingController _heightController =
-      TextEditingController(text: '170');
-  final TextEditingController _weightController =
-      TextEditingController(text: Entry.defaultContents[Entry.weight]);
+  final TextEditingController _nameController = TextEditingController(text: 'User');
+  final TextEditingController _heightController = TextEditingController(text: '170');
+  final TextEditingController _weightController = TextEditingController(text: Entry.defaultContents[Entry.weight]);
 
   @override
   void initState() {

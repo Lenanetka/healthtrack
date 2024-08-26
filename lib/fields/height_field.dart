@@ -18,13 +18,9 @@ class HeightField extends StatelessWidget {
       ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your height';
-        }
+        if (value == null || value.isEmpty) return 'Please enter your height';
         final double? height = double.tryParse(value);
-        if (height == null || height <= 0) {
-          return 'Please enter a valid height';
-        }
+        if (height == null || height <= 0) return 'Please enter a valid height';
         return null;
       },
     );

@@ -6,8 +6,7 @@ const appBarTheme = AppBarTheme(centerTitle: false, elevation: 0);
 ThemeData lightMode = ThemeData.light().copyWith(
   primaryColor: PaletteLight.primaryColor,
   scaffoldBackgroundColor: PaletteLight.backgroundColor,
-  appBarTheme:
-      appBarTheme.copyWith(backgroundColor: PaletteLight.backgroundColor),
+  appBarTheme: appBarTheme.copyWith(backgroundColor: PaletteLight.backgroundColor),
   iconTheme: const IconThemeData(color: PaletteLight.contentColor),
   textTheme: ThemeData.dark().textTheme.apply(
         bodyColor: PaletteLight.contentColor,
@@ -33,8 +32,7 @@ ThemeData lightMode = ThemeData.light().copyWith(
 ThemeData darkMode = ThemeData.dark().copyWith(
   primaryColor: PaletteDark.primaryColor,
   scaffoldBackgroundColor: PaletteDark.backgroundColor,
-  appBarTheme:
-      appBarTheme.copyWith(backgroundColor: PaletteDark.backgroundColor),
+  appBarTheme: appBarTheme.copyWith(backgroundColor: PaletteDark.backgroundColor),
   iconTheme: const IconThemeData(color: PaletteDark.contentColor),
   textTheme: ThemeData.dark().textTheme.apply(
         bodyColor: PaletteDark.contentColor,

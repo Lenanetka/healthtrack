@@ -114,9 +114,7 @@ class _EditEntryPageState extends State<EditEntryPage> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _save();
-                  }
+                  if (_formKey.currentState!.validate()) _save();
                 },
                 child: Text(
                   'Save',

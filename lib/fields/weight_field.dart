@@ -26,12 +26,9 @@ class _WeightFieldState extends State<WeightField> {
 
   Future<void> _loadLastWeight() async {
     final defaultWeight = Entry.defaultContents[Entry.weight]!;
-    if (widget.controller.text.isEmpty ||
-        widget.controller.text == defaultWeight) {
-      final entries =
-          await _db.getJournalFiltered(DateTime.now(), Entry.weight);
-      widget.controller.text =
-          entries.isEmpty ? defaultWeight : entries.first.content;
+    if (widget.controller.text.isEmpty || widget.controller.text == defaultWeight) {
+      final entries = await _db.getJournalFiltered(DateTime.now(), Entry.weight);
+      widget.controller.text = entries.isEmpty ? defaultWeight : entries.first.content;
     }
   }
 
@@ -47,13 +44,9 @@ class _WeightFieldState extends State<WeightField> {
       ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your weight';
-        }
+        if (value == null || value.isEmpty) return 'Please enter your weight';
         final double? weight = double.tryParse(value);
-        if (weight == null || weight <= 0) {
-          return 'Please enter a valid weight';
-        }
+        if (weight == null || weight <= 0) return 'Please enter a valid weight';
         return null;
       },
     );

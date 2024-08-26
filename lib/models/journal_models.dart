@@ -57,20 +57,14 @@ class EntryDB implements Entry {
   @override
   final String content;
   @override
-  String get displayedContent => Entry.units[type] != null
-      ? '$content ${Entry.units[type]!}'
-      : Meal.nameByOption[content] ?? content;
+  String get displayedContent =>
+      Entry.units[type] != null ? '$content ${Entry.units[type]!}' : Meal.nameByOption[content] ?? content;
   @override
   final String description;
   @override
   final String type;
 
-  EntryDB(
-      {this.id,
-      required this.datetime,
-      required this.content,
-      required this.description,
-      required this.type});
+  EntryDB({this.id, required this.datetime, required this.content, required this.description, required this.type});
 }
 
 class Weight extends EntryDB {

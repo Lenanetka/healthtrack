@@ -22,8 +22,7 @@ class _DatePickerState extends State<DatePicker> {
   }
 
   DateTime _selectedDate() {
-    return DateTime(
-        _selectedDateTime.year, _selectedDateTime.month, _selectedDateTime.day);
+    return DateTime(_selectedDateTime.year, _selectedDateTime.month, _selectedDateTime.day);
   }
 
   Future<void> _selectDate(BuildContext context) async {

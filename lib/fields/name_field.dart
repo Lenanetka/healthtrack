@@ -16,9 +16,7 @@ class NameField extends StatelessWidget {
       ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your name';
-        }
+        if (value == null || value.isEmpty) return 'Please enter your name';
         return null;
       },
     );

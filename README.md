@@ -47,3 +47,7 @@ dart run build_runner watch
 watches for changes in your sources and generates code with incremental rebuilds. This is suitable for development sessions.
 
 Database path: '[/data/user/0/com.example.healthtrack1/app_flutter/journal_database.sqlite]()'
+
+## Line Length
+
+Increase line length from 80 to 120 in Code - Preferences - Settings - search by "length" and update Dart: Line Length value.

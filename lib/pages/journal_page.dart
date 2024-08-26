@@ -40,22 +40,18 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   void _loadMore() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       _loadEntries();
     }
   }
 
   Future<void> _loadEntries() async {
-    final fetchedEntries =
-        await _db.getJournalFiltered(_fromDateTime, _filterOption);
+    final fetchedEntries = await _db.getJournalFiltered(_fromDateTime, _filterOption);
 
     if (fetchedEntries.isNotEmpty) {
       setState(() {
         for (var entry in fetchedEntries) {
-          if (!_entries.any((e) => e.id == entry.id)) {
-            _entries.add(entry);
-          }
+          if (!_entries.any((e) => e.id == entry.id)) _entries.add(entry);
         }
         _fromDateTime = fetchedEntries.last.datetime;
       });
@@ -66,11 +62,8 @@ class _JournalPageState extends State<JournalPage> {
     final Map<String, List<Entry>> groupedEntries = {};
 
     for (var entry in _entries) {
-      final String formattedDate =
-          DateFormat('EEE, d MMM').format(entry.datetime);
-      if (!groupedEntries.containsKey(formattedDate)) {
-        groupedEntries[formattedDate] = [];
-      }
+      final String formattedDate = DateFormat('EEE, d MMM').format(entry.datetime);
+      if (!groupedEntries.containsKey(formattedDate)) groupedEntries[formattedDate] = [];
       groupedEntries[formattedDate]!.add(entry);
     }
 
@@ -79,8 +72,7 @@ class _JournalPageState extends State<JournalPage> {
 
   Future<void> _addEntry(Entry entryToAdd) async {
     if (_filterOption != Entry.all && entryToAdd.type != _filterOption) return;
-    int index = _entries
-        .indexWhere((entry) => entry.datetime.isBefore(entryToAdd.datetime));
+    int index = _entries.indexWhere((entry) => entry.datetime.isBefore(entryToAdd.datetime));
     setState(() {
       if (index == -1) {
         _entries.add(entryToAdd);
@@ -175,9 +167,7 @@ class _JournalPageState extends State<JournalPage> {
         controller: _scrollController,
         itemCount: groupedEntries.length + 1,
         itemBuilder: (context, index) {
-          if (index == groupedEntries.length) {
-            return const SizedBox(height: 50.0);
-          }
+          if (index == groupedEntries.length) return const SizedBox(height: 50.0);
 
           final date = groupedEntries.keys.elementAt(index);
           final entries = groupedEntries[date]!;
