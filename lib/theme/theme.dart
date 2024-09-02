@@ -27,6 +27,15 @@ ThemeData lightMode = ThemeData.light().copyWith(
   drawerTheme: const DrawerThemeData(
     backgroundColor: PaletteLight.backgroundColor,
   ),
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: PaletteLight.backgroundColor,
+    rangeSelectionBackgroundColor: PaletteLight.primaryColor.withOpacity(0.1),
+    rangeSelectionOverlayColor: WidgetStateProperty.all(PaletteLight.primaryColor),
+    headerBackgroundColor: PaletteLight.backgroundColor,
+    headerForegroundColor: PaletteLight.contentColor,
+    dayForegroundColor: WidgetStateProperty.all(PaletteLight.contentColor),
+    todayForegroundColor: WidgetStateProperty.all(PaletteLight.contentColor),
+  ),
 );
 
 ThemeData darkMode = ThemeData.dark().copyWith(
@@ -52,5 +61,14 @@ ThemeData darkMode = ThemeData.dark().copyWith(
   ),
   drawerTheme: const DrawerThemeData(
     backgroundColor: PaletteDark.backgroundColor,
+  ),
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: PaletteDark.backgroundColor,
+    rangeSelectionBackgroundColor: PaletteDark.primaryColor.withOpacity(0.1),
+    rangeSelectionOverlayColor: WidgetStateProperty.all(PaletteDark.primaryColor),
+    headerBackgroundColor: PaletteDark.backgroundColor,
+    headerForegroundColor: PaletteDark.contentColor,
+    dayForegroundColor: WidgetStateProperty.all(PaletteDark.contentColor),
+    todayForegroundColor: WidgetStateProperty.all(PaletteDark.contentColor),
   ),
 );
