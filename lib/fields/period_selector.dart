@@ -7,14 +7,22 @@ enum Period {
   oneYear,
 }
 
-const defaultPeriod = Period.threeMonths;
-
 const Map<Period, int> periodDays = {
   Period.oneMonth: 30,
   Period.threeMonths: 90,
   Period.sixMonths: 180,
   Period.oneYear: 365,
 };
+
+DateTimeRange periodDateRange(Period period) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final int days = periodDays[period] ?? 90;
+  return DateTimeRange(
+    start: today.subtract(Duration(days: days)),
+    end: today,
+  );
+}
 
 Map<String, Period> periodOptions = {
   '1 month': Period.oneMonth,
@@ -25,9 +33,11 @@ Map<String, Period> periodOptions = {
 
 class PeriodSelector extends StatefulWidget {
   final ValueChanged<DateTimeRange> onPeriodRangeChanged;
+  final Period defaultPeriod;
 
   const PeriodSelector({
     required this.onPeriodRangeChanged,
+    this.defaultPeriod = Period.threeMonths,
     super.key,
   });
 
@@ -42,8 +52,8 @@ class _PeriodSelectorState extends State<PeriodSelector> {
   @override
   void initState() {
     super.initState();
-    _selectedPeriod = defaultPeriod;
-    _selectedDateRange = _periodDateRange(defaultPeriod);
+    _selectedPeriod = widget.defaultPeriod;
+    _selectedDateRange = periodDateRange(widget.defaultPeriod);
   }
 
   void _updateDateRange(DateTimeRange? newRange) {
@@ -79,17 +89,8 @@ class _PeriodSelectorState extends State<PeriodSelector> {
     Period selectedPeriod = periodOptions[period]!;
     setState(() {
       _selectedPeriod = selectedPeriod;
-      _updateDateRange(_periodDateRange(selectedPeriod));
+      _updateDateRange(periodDateRange(selectedPeriod));
     });
-  }
-
-  DateTimeRange _periodDateRange(Period period) {
-    final now = DateTime.now();
-    final int days = periodDays[period] ?? 90;
-    return DateTimeRange(
-      start: now.subtract(Duration(days: days)),
-      end: now,
-    );
   }
 
   String _formatDateRange(DateTimeRange dateRange) {

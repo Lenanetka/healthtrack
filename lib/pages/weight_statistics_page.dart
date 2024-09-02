@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/page_with_title.dart';
 import '../widgets/weight_graph.dart';
@@ -6,6 +7,8 @@ import '../fields/period_selector.dart';
 
 import '../models/journal_models.dart';
 import '../models/journal_database.dart';
+
+const Period defaultPeriod = Period.threeMonths;
 
 class WeightStatisticsPage extends StatefulWidget implements PageWithTitle {
   const WeightStatisticsPage({super.key});
@@ -18,37 +21,41 @@ class WeightStatisticsPage extends StatefulWidget implements PageWithTitle {
 }
 
 class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
-  final List<Entry> weightData = [
-    // Mock data for demonstration
-    Weight(datetime: DateTime.now().subtract(const Duration(days: 90)), amount: 70, description: ''),
-    Weight(datetime: DateTime.now().subtract(const Duration(days: 75)), amount: 69, description: ''),
-    Weight(datetime: DateTime.now().subtract(const Duration(days: 60)), amount: 68, description: ''),
-    Weight(datetime: DateTime.now().subtract(const Duration(days: 45)), amount: 69.5, description: ''),
-    Weight(datetime: DateTime.now().subtract(const Duration(days: 30)), amount: 67, description: ''),
-    Weight(datetime: DateTime.now().subtract(const Duration(days: 15)), amount: 66.5, description: ''),
-    Weight(datetime: DateTime.now(), amount: 67.5, description: ''),
-  ];
+  late JournalDatabase _db;
+  DateTimeRange _selectedDateRange = periodDateRange(defaultPeriod);
+  List<Entry> _data = [];
 
-  DateTimeRange _selectedDateRange = DateTimeRange(
-    start: DateTime.now().subtract(const Duration(days: 30)),
-    end: DateTime.now(),
-  );
+  @override
+  void initState() {
+    super.initState();
+    _db = Provider.of<JournalDatabase>(context, listen: false);
+    _data = [];
+    _loadEntries();
+  }
+
+  Future<void> _loadEntries() async {
+    final fetchedEntries = await _db.getJournalByRangeType(_selectedDateRange, Entry.weight);
+    if (fetchedEntries.isNotEmpty) {
+      setState(() {
+        _data = fetchedEntries;
+      });
+    }
+  }
 
   void _onPeriodRangeChanged(DateTimeRange range) {
     setState(() {
       _selectedDateRange = range;
-      // Update the weightData based on the selected date range
-      // Implement this logic as needed
+      _loadEntries();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: PeriodSelector(onPeriodRangeChanged: _onPeriodRangeChanged)),
+      appBar: AppBar(title: PeriodSelector(onPeriodRangeChanged: _onPeriodRangeChanged, defaultPeriod: defaultPeriod,)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: WeightGraph(data: weightData),
+        child: WeightGraph(data: _data),
       ),
     );
   }
