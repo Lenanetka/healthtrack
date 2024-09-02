@@ -35,9 +35,10 @@ class NavigationState extends State<Navigation> {
     return const UserAccountsDrawerHeader(
       accountName: Text('User Name'),
       accountEmail: Text('user.name@email.com'),
-      currentAccountPicture: CircleAvatar(
-        backgroundColor: Colors.white,
-        child: FlutterLogo(size: 42.0), //Text('A')
+      currentAccountPicture: Icon(
+        Icons.account_circle,
+        size: 48.0,
+        color: Colors.white,
       ),
     );
   }
