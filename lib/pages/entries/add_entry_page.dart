@@ -9,6 +9,7 @@ import '../../fields/description_field.dart';
 import '../../fields/weight_field.dart';
 import '../../fields/blood_sugar_field.dart';
 import '../../fields/meal_dropdown.dart';
+import '../../fields/drug_field.dart';
 
 class AddEntryPage extends StatefulWidget {
   final String type;
@@ -65,6 +66,8 @@ class _AddEntryPageState extends State<AddEntryPage> {
         return MealDropdown(
           onChanged: (value) => _contentController.text = value,
         );
+      case Entry.drug:
+        return DrugField(controller: _contentController);
       default:
         return TextFormField(controller: _contentController);
     }

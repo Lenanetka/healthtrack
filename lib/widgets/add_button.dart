@@ -28,14 +28,19 @@ class _AddButtonState extends State<AddButton> {
               onTap: () => _add(Weight.TYPE),
             ),
             ListTile(
+              leading: BloodSugar.ICON,
+              title: Text(BloodSugar.TITLE),
+              onTap: () => _add(BloodSugar.TYPE),
+            ),
+             ListTile(
               leading: Meal.ICON,
               title: Text(Meal.TITLE),
               onTap: () => _add(Meal.TYPE),
             ),
             ListTile(
-              leading: BloodSugar.ICON,
-              title: Text(BloodSugar.TITLE),
-              onTap: () => _add(BloodSugar.TYPE),
+              leading: Drug.ICON,
+              title: Text(Drug.TITLE),
+              onTap: () => _add(Drug.TYPE),
             ),
             // Add more options here if needed
           ],

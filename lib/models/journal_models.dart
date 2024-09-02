@@ -15,16 +15,18 @@ abstract class Entry {
   static const String weight = 'weight';
   static const String bloodsugar = 'bloodsugar';
   static const String meal = 'meal';
+  static const String drug = 'drug';
 
   static const Map<String, Icon> icons = {
     all: Icon(Icons.filter_list),
     weight: Icon(Icons.monitor_weight),
     bloodsugar: Icon(Icons.opacity),
     meal: Icon(Icons.fastfood),
+    drug: Icon(Icons.medication),
   };
 
-  static const List<String> options = [all, weight, bloodsugar, meal];
-  static const List<String> names = ['All', 'Weight', 'Blood sugar', 'Meal'];
+  static const List<String> options = [all, weight, bloodsugar, meal, drug];
+  static const List<String> names = ['All', 'Weight', 'Blood sugar', 'Meal', 'Drug'];
 
   static Map<String, String> nameByOption = Map.fromIterables(options, names);
   static Map<String, String> optionByName = Map.fromIterables(names, options);
@@ -33,6 +35,7 @@ abstract class Entry {
     weight: '70',
     bloodsugar: '5',
     meal: Meal.breakfast,
+    drug: 'Metformin'
   };
 
   static const Map<String, String?> units = {
@@ -134,5 +137,24 @@ class Meal extends EntryDB {
   }) : super(
           content: option,
           type: Entry.meal,
+        );
+}
+
+class Drug extends EntryDB {
+  static String TYPE = Entry.drug;
+  static Icon get ICON => Entry.icons[TYPE]!;
+  static String get DEFAULT => Entry.defaultContents[TYPE]!;
+  static String get TITLE => Entry.nameByOption[TYPE]!;
+
+  final String name;
+
+  Drug({
+    super.id,
+    required super.datetime,
+    required this.name,
+    required super.description,
+  }) : super(
+          content: name,
+          type: Entry.drug,
         );
 }
