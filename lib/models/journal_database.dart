@@ -50,9 +50,9 @@ class JournalDatabase extends _$JournalDatabase {
 
   final size = 50;
 
-  Future<List<Entry>> getJournalByDate(DateTime from) async {
+  Future<List<Entry>> getJournalByDate(DateTime before) async {
     final entries = await (select(journalEntries)
-          ..where((entry) => entry.datetime.isSmallerThanValue(from))
+          ..where((entry) => entry.datetime.isSmallerThanValue(before))
           ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
           ..limit(size))
         .get();
@@ -68,11 +68,11 @@ class JournalDatabase extends _$JournalDatabase {
     }).toList();
   }
 
-  Future<List<Entry>> getJournalFiltered(DateTime from, String option) async {
-    if (option == Entry.all) return await getJournalByDate(from);
+  Future<List<Entry>> getJournalByDateType(DateTime before, String type) async {
+    if (type == Entry.all) return await getJournalByDate(before);
     final entries = await (select(journalEntries)
-          ..where((entry) => entry.datetime.isSmallerThanValue(from))
-          ..where((entry) => entry.type.equals(option))
+          ..where((entry) => entry.datetime.isSmallerThanValue(before))
+          ..where((entry) => entry.type.equals(type))
           ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
           ..limit(size))
         .get();

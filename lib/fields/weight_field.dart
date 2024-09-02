@@ -27,7 +27,7 @@ class _WeightFieldState extends State<WeightField> {
   Future<void> _loadLastWeight() async {
     final defaultWeight = Entry.defaultContents[Entry.weight]!;
     if (widget.controller.text.isEmpty || widget.controller.text == defaultWeight) {
-      final entries = await _db.getJournalFiltered(DateTime.now(), Entry.weight);
+      final entries = await _db.getJournalByDateType(DateTime.now(), Entry.weight);
       widget.controller.text = entries.isEmpty ? defaultWeight : entries.first.content;
     }
   }

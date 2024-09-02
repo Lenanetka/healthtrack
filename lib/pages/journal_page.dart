@@ -48,7 +48,7 @@ class _JournalPageState extends State<JournalPage> {
   }
 
   Future<void> _loadEntries() async {
-    final fetchedEntries = await _db.getJournalFiltered(_fromDateTime, _filterOption);
+    final fetchedEntries = await _db.getJournalByDateType(_fromDateTime, _filterOption);
 
     if (fetchedEntries.isNotEmpty) {
       setState(() {
