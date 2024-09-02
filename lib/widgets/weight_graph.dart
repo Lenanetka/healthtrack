@@ -25,6 +25,7 @@ class WeightGraph extends StatelessWidget {
     final firstWeight = data.first.displayedContent;
     final lastWeight = data.last.displayedContent;
     final weightDifference = double.parse(data.last.content) - double.parse(data.first.content);
+    final double horizontalInterval = (weightDifference.abs() / 2).ceilToDouble();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,7 @@ class WeightGraph extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Difference: ${weightDifference.abs().toStringAsFixed(1)} kg',
+                  'Difference: ${weightDifference.abs().toStringAsFixed(1)} ${Entry.units[Entry.weight]}',
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 const SizedBox(width: 4),
@@ -105,7 +106,7 @@ class WeightGraph extends StatelessWidget {
                 drawVerticalLine: true,
                 verticalInterval: 1,
                 drawHorizontalLine: true,
-                horizontalInterval: 1,
+                horizontalInterval: horizontalInterval,
                 getDrawingHorizontalLine: (value) {
                   return FlLine(
                     color: Colors.grey.withOpacity(0.5),
