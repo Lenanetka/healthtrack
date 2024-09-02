@@ -134,7 +134,7 @@ class WeightGraph extends StatelessWidget {
                       final index = touchedSpot.x.toInt();
                       final entry = data[index];
                       return LineTooltipItem(
-                        '${entry.displayedContent}\n${DateFormat('yyyy-MM-dd').format(entry.datetime)}',
+                        '${entry.displayedContent}\n${DateFormat('d MMM, y').format(entry.datetime)}',
                         const TextStyle(color: Colors.white),
                       );
                     }).toList();
