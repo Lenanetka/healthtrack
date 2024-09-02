@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/src/material/date.dart';
 import 'journal_models.dart';
 
 part 'journal_database.g.dart';
@@ -74,6 +75,24 @@ class JournalDatabase extends _$JournalDatabase {
           ..where((entry) => entry.type.equals(option))
           ..orderBy([(entry) => OrderingTerm.desc(entry.datetime)])
           ..limit(size))
+        .get();
+
+    return entries.map((entry) {
+      return EntryDB(
+        id: entry.id,
+        datetime: entry.datetime,
+        content: entry.content,
+        description: entry.description ?? '',
+        type: entry.type,
+      );
+    }).toList();
+  }
+
+  Future<List<Entry>> getJournalByRangeType(DateTimeRange range, String type) async {
+    final entries = await (select(journalEntries)
+          ..where((entry) => entry.datetime.isBetweenValues(range.start, range.end.add(const Duration(days: 1))))
+          ..where((entry) => entry.type.equals(type))
+          ..orderBy([(entry) => OrderingTerm.asc(entry.datetime)]))
         .get();
 
     return entries.map((entry) {
