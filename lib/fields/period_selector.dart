@@ -7,6 +7,15 @@ enum Period {
   oneYear,
 }
 
+const defaultPeriod = Period.threeMonths;
+
+const Map<Period, int> periodDays = {
+  Period.oneMonth: 30,
+  Period.threeMonths: 90,
+  Period.sixMonths: 180,
+  Period.oneYear: 365,
+};
+
 Map<String, Period> periodOptions = {
   '1 month': Period.oneMonth,
   '3 months': Period.threeMonths,
@@ -27,11 +36,15 @@ class PeriodSelector extends StatefulWidget {
 }
 
 class _PeriodSelectorState extends State<PeriodSelector> {
-  DateTimeRange _selectedDateRange = DateTimeRange(
-    start: DateTime.now().subtract(const Duration(days: 30)),
-    end: DateTime.now(),
-  );
-  Period? _selectedPeriod = Period.threeMonths;
+  late Period? _selectedPeriod;
+  late DateTimeRange _selectedDateRange;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedPeriod = defaultPeriod;
+    _selectedDateRange = _periodDateRange(defaultPeriod);
+  }
 
   void _updateDateRange(DateTimeRange? newRange) {
     if (newRange != null && newRange != _selectedDateRange) {
@@ -72,38 +85,11 @@ class _PeriodSelectorState extends State<PeriodSelector> {
 
   DateTimeRange _periodDateRange(Period period) {
     final now = DateTime.now();
-    DateTimeRange range;
-
-    switch (period) {
-      case Period.oneMonth:
-        range = DateTimeRange(
-          start: now.subtract(const Duration(days: 30)),
-          end: now,
-        );
-        break;
-      case Period.threeMonths:
-        range = DateTimeRange(
-          start: now.subtract(const Duration(days: 90)),
-          end: now,
-        );
-        break;
-      case Period.sixMonths:
-        range = DateTimeRange(
-          start: now.subtract(const Duration(days: 180)),
-          end: now,
-        );
-        break;
-      case Period.oneYear:
-        range = DateTimeRange(
-          start: now.subtract(const Duration(days: 365)),
-          end: now,
-        );
-        break;
-      default:
-        range = _selectedDateRange;
-        break;
-    }
-    return range;
+    final int days = periodDays[period] ?? 90;
+    return DateTimeRange(
+      start: now.subtract(Duration(days: days)),
+      end: now,
+    );
   }
 
   String _formatDateRange(DateTimeRange dateRange) {
