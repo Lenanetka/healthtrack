@@ -25,7 +25,7 @@ class WeightGraph extends StatelessWidget {
     final firstWeight = data.first.displayedContent;
     final lastWeight = data.last.displayedContent;
     final weightDifference = double.parse(data.last.content) - double.parse(data.first.content);
-    final double horizontalInterval = (weightDifference.abs() / 2).ceilToDouble();
+    final double horizontalInterval = weightDifference == 0 ? 1 : (weightDifference.abs() / 2).ceilToDouble();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,7 @@ class WeightGraph extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 Icon(
-                  weightDifference > 0 ? Icons.arrow_upward : Icons.arrow_downward,
+                  weightDifference > 0 ? Icons.arrow_upward : weightDifference < 0 ? Icons.arrow_downward : Icons.horizontal_rule,
                   color: weightDifference > 0
                       ? Theme.of(context).colorScheme.error
                       : Theme.of(context).colorScheme.primary,
