@@ -21,6 +21,8 @@ class JournalPage extends StatefulWidget implements PageWithTitle {
   @override
   State<JournalPage> createState() => _JournalPageState();
   @override
+  Icon get icon => const Icon(Icons.book);
+  @override
   String get title => 'Journal';
 }
 

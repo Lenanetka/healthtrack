@@ -51,6 +51,7 @@ class NavigationState extends State<Navigation> {
           int pageKey = item.key;
           PageWithTitle page = item.value;
           return ListTile(
+            leading: page.icon,
             title: Text(page.title),
             onTap: () => _open(pageKey),
           );

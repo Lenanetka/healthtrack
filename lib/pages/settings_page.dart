@@ -8,6 +8,8 @@ class SettingsPage extends StatefulWidget implements PageWithTitle {
   @override
   State<SettingsPage> createState() => _SettingsPageState();
   @override
+  Icon get icon => const Icon(Icons.settings);
+  @override
   String get title => 'Settings';
 }
 

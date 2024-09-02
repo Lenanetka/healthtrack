@@ -17,6 +17,8 @@ class WeightStatisticsPage extends StatefulWidget implements PageWithTitle {
   State<WeightStatisticsPage> createState() => _WeightStatisticsPageState();
 
   @override
+  Icon get icon => const Icon(Icons.bar_chart);
+  @override
   String get title => 'Statistics: Weight';
 }
 
@@ -52,7 +54,11 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: PeriodSelector(onPeriodRangeChanged: _onPeriodRangeChanged, defaultPeriod: defaultPeriod,)),
+      appBar: AppBar(
+          title: PeriodSelector(
+        onPeriodRangeChanged: _onPeriodRangeChanged,
+        defaultPeriod: defaultPeriod,
+      )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: WeightGraph(data: _data),

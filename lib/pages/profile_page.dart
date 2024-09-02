@@ -15,6 +15,8 @@ class ProfilePage extends StatefulWidget implements PageWithTitle {
   @override
   State<ProfilePage> createState() => _ProfilePageState();
   @override
+  Icon get icon => const Icon(Icons.person);
+  @override
   String get title => 'Profile';
 }
 
