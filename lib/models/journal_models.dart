@@ -20,7 +20,7 @@ abstract class Entry {
     all: Icon(Icons.filter_list),
     weight: Icon(Icons.monitor_weight),
     bloodsugar: Icon(Icons.opacity),
-    meal: Icon(Icons.restaurant_menu),
+    meal: Icon(Icons.fastfood),
   };
 
   static const List<String> options = [all, weight, bloodsugar, meal];
