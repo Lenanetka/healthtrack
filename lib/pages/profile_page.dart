@@ -72,10 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     );
                   }
                 },
-                child: Text(
-                  'Save',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
+                child: const Text('Save'),
               ),
             ],
           ),

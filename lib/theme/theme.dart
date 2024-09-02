@@ -36,6 +36,16 @@ ThemeData lightMode = ThemeData.light().copyWith(
     dayForegroundColor: WidgetStateProperty.all(PaletteLight.contentColor),
     todayForegroundColor: WidgetStateProperty.all(PaletteLight.contentColor),
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: PaletteLight.primaryColor,
+      foregroundColor: PaletteLight.secondaryColor,
+    ),
+  ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: PaletteLight.primaryColor,
+    foregroundColor: PaletteLight.secondaryColor,
+  ),
 );
 
 ThemeData darkMode = ThemeData.dark().copyWith(
@@ -70,5 +80,15 @@ ThemeData darkMode = ThemeData.dark().copyWith(
     headerForegroundColor: PaletteDark.contentColor,
     dayForegroundColor: WidgetStateProperty.all(PaletteDark.contentColor),
     todayForegroundColor: WidgetStateProperty.all(PaletteDark.contentColor),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: PaletteDark.primaryColor,
+      foregroundColor: PaletteDark.secondaryColor,
+    ),
+  ),
+  floatingActionButtonTheme: const FloatingActionButtonThemeData(
+    backgroundColor: PaletteDark.primaryColor,
+    foregroundColor: PaletteDark.secondaryColor,
   ),
 );

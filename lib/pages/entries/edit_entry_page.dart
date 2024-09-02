@@ -119,10 +119,7 @@ class _EditEntryPageState extends State<EditEntryPage> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) _save();
                 },
-                child: Text(
-                  'Save',
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
+                child: const Text('Save'),
               ),
             ],
           ),
