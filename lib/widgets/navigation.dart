@@ -32,13 +32,26 @@ class NavigationState extends State<Navigation> {
   }
 
   Widget drawerHeader() {
-    return const UserAccountsDrawerHeader(
-      accountName: Text('User Name'),
-      accountEmail: Text('user.name@email.com'),
-      currentAccountPicture: Icon(
-        Icons.account_circle,
-        size: 48.0,
-        color: Colors.white,
+    return Container(
+      color: Theme.of(context).primaryColor,
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          Icon(
+            Icons.account_circle,
+            size: 48.0,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          const SizedBox(height: 16.0),
+          Text(
+            'User Name',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Theme.of(context).colorScheme.secondary),
+          ),
+          Text(
+            'user.name@email.com',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.secondary),
+          ),
+        ],
       ),
     );
   }
