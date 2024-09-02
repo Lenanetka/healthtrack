@@ -13,6 +13,15 @@ class WeightGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (data.isEmpty) {
+      return Center(
+        child: Text(
+          'No data available.',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      );
+    }
+
     final firstWeight = data.first.displayedContent;
     final lastWeight = data.last.displayedContent;
     final weightDifference = double.parse(data.last.content) - double.parse(data.first.content);
@@ -20,7 +29,7 @@ class WeightGraph extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Display first, last and difference
+        // Display first, last, and difference
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
