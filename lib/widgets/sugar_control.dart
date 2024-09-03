@@ -26,6 +26,7 @@ class SugarControl extends StatelessWidget {
     double average = data.map((entry) => double.parse(entry.content)).reduce((a, b) => a + b) / data.length;
     double hba1cMPGM = (average + 2.59) / 1.59; //mmol/L
     double hba1cMPG = (average + 46.7) / 28.7; //mg/dL
+    double hba1c = hba1cMPGM;
 
     List<PieChartSectionData> sections = [];
     if (total > 0) {
@@ -110,21 +111,84 @@ class SugarControl extends StatelessWidget {
       );
     }
 
-    Widget hba1c() {
-      return Text(
-        'HbA1c: ${hba1cMPGM.toStringAsFixed(2)}%',
-        style: Theme.of(context).textTheme.titleSmall,
+    void showControlStatusInfo(BuildContext context) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Control status'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('HbA1c <5% Dangerous'),
+                SizedBox(height: 16),
+                Text('HbA1c ≤ 5.6% Healthy'),
+                SizedBox(height: 16),
+                Text('HbA1c < 7% Good control'),
+                SizedBox(height: 16),
+                Text('HbA1c < 8% Moderate control'),
+                SizedBox(height: 16),
+                Text('HbA1c ≥ 8% Poor control'),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: const Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    Widget sugarControl() {
+      String controlStatus = 'Healthy';
+      Color controlColor = Colors.green;
+      if (hba1c < 5) {
+        controlStatus = 'Dangerous';
+        controlColor = Colors.red;
+      }
+      if (hba1c >= 5.7 && hba1c < 7) {
+        controlStatus = 'Good control';
+        controlColor = Colors.green;
+      }
+      if (hba1c >= 7 && hba1c < 8) {
+        controlStatus = 'Moderate control';
+        controlColor = Colors.orange;
+      }
+      if (hba1c >= 8) {
+        controlStatus = 'Poor control';
+        controlColor = Colors.red;
+      }
+      return Padding(
+        padding: const EdgeInsets.only(top: 8.0, left: 16.0),
+        child: Row(
+          children: [
+            Text(
+              'HbA1c: ${hba1c.toStringAsFixed(2)}%',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              controlStatus,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: controlColor,
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.help_outline, size: 20),
+              onPressed: () => showControlStatusInfo(context),
+            ),
+          ],
+        ),
       );
     }
 
     return Column(
-      children: [
-        pieChart(),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0, left: 16.0),
-          child: hba1c(),
-        ),
-      ],
+      children: [pieChart(), sugarControl()],
     );
   }
 }
