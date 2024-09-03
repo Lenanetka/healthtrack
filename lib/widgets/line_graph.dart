@@ -6,15 +6,38 @@ import '../models/journal_models.dart';
 class LineGraph extends StatelessWidget {
   final List<Entry> data;
   final bool showDifferenceBar;
+  final bool showAverageBar;
 
   const LineGraph({
     super.key,
     required this.data,
     this.showDifferenceBar = false,
+    this.showAverageBar = false,
   });
 
+  String get type => data.first.type;
   double get minY => data.map((e) => double.parse(e.content)).reduce((a, b) => a < b ? a : b);
   double get maxY => data.map((e) => double.parse(e.content)).reduce((a, b) => a > b ? a : b);
+  double get averageValue {
+    if (data.isEmpty) return 0;
+    final values = data.map((e) => double.parse(e.content)).toList();
+    final sum = values.reduce((a, b) => a + b);
+    return sum / values.length;
+  }
+
+  String get minValue {
+    if (data.isEmpty) return '-';
+    final values = data.map((e) => double.parse(e.content)).toList();
+    final result = values.reduce((a, b) => a < b ? a : b);
+    return '$result ${Entry.units[type]}';
+  }
+
+  String get maxValue {
+    if (data.isEmpty) return '-';
+    final values = data.map((e) => double.parse(e.content)).toList();
+    final result = values.reduce((a, b) => a > b ? a : b);
+    return '$result ${Entry.units[type]}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,41 +50,61 @@ class LineGraph extends StatelessWidget {
       );
     }
 
-    final type = data.first.type;
-    final firstWeight = data.first.displayedContent;
-    final lastWeight = data.last.displayedContent;
-    final weightDifference = double.parse(data.last.content) - double.parse(data.first.content);
-    final double horizontalInterval = weightDifference == 0 ? 1 : (weightDifference.abs() / 2).ceilToDouble();
+    final difference = double.parse(data.last.content) - double.parse(data.first.content);
+    final double horizontalInterval = difference == 0 ? 1 : (difference.abs() / 2).ceilToDouble();
 
     Widget differenceBar() {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            firstWeight,
+            data.first.displayedContent,
             style: Theme.of(context).textTheme.titleSmall,
           ),
           Row(
             children: [
               Text(
-                'Difference: ${weightDifference.abs().toStringAsFixed(1)} ${Entry.units[type]}',
+                'Difference: ${difference.abs().toStringAsFixed(1)} ${Entry.units[type]}',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(width: 4),
               Icon(
-                weightDifference > 0
+                difference > 0
                     ? Icons.arrow_upward
-                    : weightDifference < 0
+                    : difference < 0
                         ? Icons.arrow_downward
                         : Icons.horizontal_rule,
-                color:
-                    weightDifference > 0 ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
+                color: difference > 0 ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
                 size: 20,
               ),
             ],
           ),
           Text(
-            lastWeight,
+            data.last.displayedContent,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ],
+      );
+    }
+
+    Widget averageBar() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            'Min: $minValue',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          Row(
+            children: [
+              Text(
+                'Avg: ${averageValue.toStringAsFixed(1)} ${Entry.units[type]}',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ],
+          ),
+          Text(
+            'Max: $maxValue',
             style: Theme.of(context).textTheme.titleSmall,
           ),
         ],
@@ -72,6 +115,7 @@ class LineGraph extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (showDifferenceBar) differenceBar(),
+        if (showAverageBar) averageBar(),
         const SizedBox(height: 16),
         // Graph
         SizedBox(

@@ -61,7 +61,7 @@ class _BloodSugarStatisticsPageState extends State<BloodSugarStatisticsPage> {
       )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: LineGraph(data: _data),
+        child: LineGraph(data: _data, showAverageBar: true),
       ),
     );
   }
