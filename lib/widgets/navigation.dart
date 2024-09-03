@@ -4,6 +4,7 @@ import '../pages/journal_page.dart';
 import '../pages/profile_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/weight_statistics_page.dart';
+import '../pages/bloodsugar_statistics_page.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -21,6 +22,7 @@ class NavigationState extends State<Navigation> {
     const ProfilePage(),
     const SettingsPage(),
     const WeightStatisticsPage(),
+    const BloodSugarStatisticsPage(),
   ];
 
   void _open(pageKey) {
