@@ -18,12 +18,7 @@ class LineGraph extends StatelessWidget {
   String get type => data.first.type;
   double get minY => data.map((e) => double.parse(e.content)).reduce((a, b) => a < b ? a : b);
   double get maxY => data.map((e) => double.parse(e.content)).reduce((a, b) => a > b ? a : b);
-  double get averageValue {
-    if (data.isEmpty) return 0;
-    final values = data.map((e) => double.parse(e.content)).toList();
-    final sum = values.reduce((a, b) => a + b);
-    return sum / values.length;
-  }
+  double get average => data.map((entry) => double.parse(entry.content)).reduce((a, b) => a + b) / data.length;
 
   String get minValue {
     if (data.isEmpty) return '-';
@@ -91,7 +86,7 @@ class LineGraph extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Avg: ${averageValue.toStringAsFixed(1)} ${Entry.units[type]}',
+                'Avg: ${average.toStringAsFixed(1)} ${Entry.units[type]}',
                 style: Theme.of(context).textTheme.titleSmall,
               ),
             ],
