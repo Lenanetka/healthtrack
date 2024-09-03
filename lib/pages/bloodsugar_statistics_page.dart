@@ -8,7 +8,7 @@ import '../fields/period_selector.dart';
 import '../models/journal_models.dart';
 import '../models/journal_database.dart';
 
-const Period defaultPeriod = Period.threeMonths;
+const Period defaultPeriod = Period.twoWeeks;
 
 class BloodSugarStatisticsPage extends StatefulWidget implements PageWithTitle {
   const BloodSugarStatisticsPage({super.key});

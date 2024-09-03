@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum Period {
+  twoWeeks,
   oneMonth,
   threeMonths,
   sixMonths,
@@ -8,6 +9,7 @@ enum Period {
 }
 
 const Map<Period, int> periodDays = {
+  Period.twoWeeks: 14,
   Period.oneMonth: 30,
   Period.threeMonths: 90,
   Period.sixMonths: 180,
@@ -25,6 +27,7 @@ DateTimeRange periodDateRange(Period period) {
 }
 
 Map<String, Period> periodOptions = {
+  '2 weeks': Period.twoWeeks,
   '1 month': Period.oneMonth,
   '3 months': Period.threeMonths,
   '6 months': Period.sixMonths,
