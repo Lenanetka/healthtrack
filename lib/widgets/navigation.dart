@@ -19,10 +19,10 @@ class NavigationState extends State<Navigation> {
 
   final List<PageWithTitle> _pages = [
     const JournalPage(),
-    const ProfilePage(),
-    const SettingsPage(),
     const WeightStatisticsPage(),
     const BloodSugarStatisticsPage(),
+    const ProfilePage(),
+    const SettingsPage(),
   ];
 
   void _open(pageKey) {
