@@ -23,6 +23,10 @@ class SugarControl extends StatelessWidget {
     int highTotal = data.where((entry) => double.parse(entry.content) >= high).length;
     int total = lowTotal + normalTotal + highTotal;
 
+    double average = data.map((entry) => double.parse(entry.content)).reduce((a, b) => a + b) / data.length;
+    double hba1cMPGM = (average + 2.59) / 1.59; //mmol/L
+    double hba1cMPG = (average + 46.7) / 28.7; //mg/dL
+
     List<PieChartSectionData> sections = [];
     if (total > 0) {
       if (lowTotal > 0) {
@@ -73,33 +77,52 @@ class SugarControl extends StatelessWidget {
       );
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(width: 16),
-        SizedBox(
-          width: 90,
-          height: 90,
-          child: PieChart(
-            PieChartData(
-              sections: sections,
-              sectionsSpace: 1,
-              centerSpaceRadius: 30,
-              borderData: FlBorderData(show: false),
+    Widget pieChart() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(width: 16),
+          SizedBox(
+            width: 90,
+            height: 90,
+            child: PieChart(
+              PieChartData(
+                sections: sections,
+                sectionsSpace: 1,
+                centerSpaceRadius: 30,
+                borderData: FlBorderData(show: false),
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              legend('Normal', Colors.green, normalTotal, total),
-              legend('Hyperglycemia', Colors.orange, highTotal, total),
-              legend('Hypoglycemia', Colors.red, lowTotal, total),
-            ],
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                legend('Normal', Colors.green, normalTotal, total),
+                legend('Hyperglycemia', Colors.orange, highTotal, total),
+                legend('Hypoglycemia', Colors.red, lowTotal, total),
+              ],
+            ),
           ),
+        ],
+      );
+    }
+
+    Widget hba1c() {
+      return Text(
+        'HbA1c: ${hba1cMPGM.toStringAsFixed(2)}%',
+        style: Theme.of(context).textTheme.titleSmall,
+      );
+    }
+
+    return Column(
+      children: [
+        pieChart(),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0, left: 16.0),
+          child: hba1c(),
         ),
       ],
     );
