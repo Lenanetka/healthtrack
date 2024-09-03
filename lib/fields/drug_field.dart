@@ -37,7 +37,7 @@ class _DrugFieldState extends State<DrugField> {
       controller: widget.controller,
       decoration: const InputDecoration(labelText: 'Drug'),
       inputFormatters: [
-        LengthLimitingTextInputFormatter(20),
+        LengthLimitingTextInputFormatter(30),
       ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {

@@ -29,14 +29,25 @@ class JournalRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(entry.displayedContent),
-              Text(formatTime(entry.datetime)),
+              Expanded(
+                child: Text(
+                  entry.displayedContent,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              Text(
+                formatTime(entry.datetime),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
             ],
           ),
           if (entry.description.isNotEmpty)
             Text(
               entry.description,
               style: Theme.of(context).textTheme.bodySmall,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
         ],
       ),
