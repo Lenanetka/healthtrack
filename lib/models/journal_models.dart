@@ -35,7 +35,7 @@ abstract class Entry {
     weight: '70',
     bloodsugar: '5',
     meal: Meal.breakfast,
-    drug: 'Metformin'
+    drug: 'Metformin 500 mg'
   };
 
   static const Map<String, String?> units = {
