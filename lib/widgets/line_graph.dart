@@ -41,14 +41,7 @@ class LineGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (data.isEmpty) {
-      return Center(
-        child: Text(
-          'No data available.',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      );
-    }
+    if (data.isEmpty) return const Row();
 
     final difference = double.parse(data.last.content) - double.parse(data.first.content);
     final double horizontalInterval = difference == 0 ? 1 : (difference.abs() / 2).ceilToDouble();

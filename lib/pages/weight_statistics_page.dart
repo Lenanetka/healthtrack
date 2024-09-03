@@ -37,11 +37,9 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
 
   Future<void> _loadEntries() async {
     final fetchedEntries = await _db.getJournalByRangeType(_selectedDateRange, Entry.weight);
-    if (fetchedEntries.isNotEmpty) {
-      setState(() {
-        _data = fetchedEntries;
-      });
-    }
+    setState(() {
+      _data = fetchedEntries ;
+    });
   }
 
   void _onPeriodRangeChanged(DateTimeRange range) {
@@ -49,6 +47,25 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
       _selectedDateRange = range;
       _loadEntries();
     });
+  }
+
+  Widget empty() {
+    return Center(
+      child: Text(
+        'No data available.',
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+  }
+
+  Widget statistics() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: LineGraph(
+        data: _data,
+        showDifferenceBar: true,
+      ),
+    );
   }
 
   @override
@@ -59,13 +76,7 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
         onPeriodRangeChanged: _onPeriodRangeChanged,
         defaultPeriod: defaultPeriod,
       )),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: LineGraph(
-          data: _data,
-          showDifferenceBar: true,
-        ),
-      ),
+      body: _data.isEmpty ? empty() : statistics(),
     );
   }
 }

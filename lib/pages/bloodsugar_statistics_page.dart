@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/page_with_title.dart';
+import '../widgets/sugar_control.dart';
 import '../widgets/line_graph.dart';
 import '../fields/period_selector.dart';
 
@@ -37,11 +38,9 @@ class _BloodSugarStatisticsPageState extends State<BloodSugarStatisticsPage> {
 
   Future<void> _loadEntries() async {
     final fetchedEntries = await _db.getJournalByRangeType(_selectedDateRange, Entry.bloodsugar);
-    if (fetchedEntries.isNotEmpty) {
-      setState(() {
-        _data = fetchedEntries;
-      });
-    }
+    setState(() {
+      _data = fetchedEntries;
+    });
   }
 
   void _onPeriodRangeChanged(DateTimeRange range) {
@@ -51,18 +50,41 @@ class _BloodSugarStatisticsPageState extends State<BloodSugarStatisticsPage> {
     });
   }
 
+  Widget empty() {
+    return Center(
+      child: Text(
+        'No data available.',
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+  }
+
+  Widget statistics() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          SugarControl(data: _data),
+          const SizedBox(height: 16),
+          LineGraph(
+            data: _data,
+            showAverageBar: true,
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: PeriodSelector(
-        onPeriodRangeChanged: _onPeriodRangeChanged,
-        defaultPeriod: defaultPeriod,
-      )),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: LineGraph(data: _data, showAverageBar: true),
+        title: PeriodSelector(
+          onPeriodRangeChanged: _onPeriodRangeChanged,
+          defaultPeriod: defaultPeriod,
+        ),
       ),
+      body: _data.isEmpty ? empty() : statistics(),
     );
   }
 }
