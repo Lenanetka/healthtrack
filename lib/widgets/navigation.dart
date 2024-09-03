@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/page_with_title.dart';
 import '../pages/journal_page.dart';
-import '../pages/profile_page.dart';
+import '../pages/bmi_page.dart';
 import '../pages/settings_page.dart';
 import '../pages/weight_statistics_page.dart';
 import '../pages/bloodsugar_statistics_page.dart';
@@ -21,7 +21,7 @@ class NavigationState extends State<Navigation> {
     const JournalPage(),
     const WeightStatisticsPage(),
     const BloodSugarStatisticsPage(),
-    const ProfilePage(),
+    const BMIPage(),
     const SettingsPage(),
   ];
 

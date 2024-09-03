@@ -6,24 +6,22 @@ import '../widgets/bmi_widget.dart';
 import '../models/journal_models.dart';
 
 import '../fields/height_field.dart';
-import '../fields/name_field.dart';
 import '../fields/weight_field.dart';
 
-class ProfilePage extends StatefulWidget implements PageWithTitle {
-  const ProfilePage({super.key});
+class BMIPage extends StatefulWidget implements PageWithTitle {
+  const BMIPage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<BMIPage> createState() => _BMIPageState();
   @override
-  Icon get icon => const Icon(Icons.person);
+  Icon get icon => const Icon(Icons.monitor_weight);
   @override
-  String get title => 'Profile';
+  String get title => 'BMI';
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _BMIPageState extends State<BMIPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController = TextEditingController(text: 'User');
   final TextEditingController _heightController = TextEditingController(text: '170');
   final TextEditingController _weightController = TextEditingController(text: Entry.defaultContents[Entry.weight]);
 
@@ -35,13 +33,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> load() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _nameController.text = prefs.getString('name') ?? 'User';
     _heightController.text = (prefs.getDouble('height') ?? 170.0).toString();
   }
 
   Future<void> save() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', _nameController.text);
     await prefs.setDouble('height', double.parse(_heightController.text));
   }
 
@@ -54,7 +50,6 @@ class _ProfilePageState extends State<ProfilePage> {
           key: _formKey,
           child: ListView(
             children: <Widget>[
-              NameField(controller: _nameController),
               HeightField(controller: _heightController),
               WeightField(controller: _weightController),
               const SizedBox(height: 20),
@@ -68,11 +63,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   if (_formKey.currentState!.validate()) {
                     save();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Profile saved')),
+                      const SnackBar(content: Text('Height saved')),
                     );
                   }
                 },
-                child: const Text('Save'),
+                child: const Text('Save Height'),
               ),
             ],
           ),
@@ -83,7 +78,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void dispose() {
-    _nameController.dispose();
     _heightController.dispose();
     _weightController.dispose();
     super.dispose();
