@@ -121,6 +121,8 @@ class SugarControl extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text('Log at least 20 blood sugar values per week and don\'t skip more than 3 days, and even so it\'s far from being accurate.'),
+                SizedBox(height: 16),
                 Text('HbA1c <5% Dangerous'),
                 SizedBox(height: 16),
                 Text('HbA1c ≤ 5.6% Healthy'),
