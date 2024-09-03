@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/page_with_title.dart';
-import '../widgets/weight_graph.dart';
+import '../widgets/line_graph.dart';
 import '../fields/period_selector.dart';
 
 import '../models/journal_models.dart';
@@ -61,7 +61,10 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
       )),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: WeightGraph(data: _data),
+        child: LineGraph(
+          data: _data,
+          showDifferenceBar: true,
+        ),
       ),
     );
   }

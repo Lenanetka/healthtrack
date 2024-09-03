@@ -3,10 +3,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import '../models/journal_models.dart';
 
-class WeightGraph extends StatelessWidget {
+class LineGraph extends StatelessWidget {
   final List<Entry> data;
+  final bool showDifferenceBar;
 
-  const WeightGraph({super.key, required this.data});
+  const LineGraph({
+    super.key,
+    required this.data,
+    this.showDifferenceBar = false,
+  });
 
   double get minY => data.map((e) => double.parse(e.content)).reduce((a, b) => a < b ? a : b);
   double get maxY => data.map((e) => double.parse(e.content)).reduce((a, b) => a > b ? a : b);
@@ -22,44 +27,51 @@ class WeightGraph extends StatelessWidget {
       );
     }
 
+    final type = data.first.type;
     final firstWeight = data.first.displayedContent;
     final lastWeight = data.last.displayedContent;
     final weightDifference = double.parse(data.last.content) - double.parse(data.first.content);
     final double horizontalInterval = weightDifference == 0 ? 1 : (weightDifference.abs() / 2).ceilToDouble();
 
+    Widget differenceBar() {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            firstWeight,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          Row(
+            children: [
+              Text(
+                'Difference: ${weightDifference.abs().toStringAsFixed(1)} ${Entry.units[type]}',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              const SizedBox(width: 4),
+              Icon(
+                weightDifference > 0
+                    ? Icons.arrow_upward
+                    : weightDifference < 0
+                        ? Icons.arrow_downward
+                        : Icons.horizontal_rule,
+                color:
+                    weightDifference > 0 ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primary,
+                size: 20,
+              ),
+            ],
+          ),
+          Text(
+            lastWeight,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ],
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Display first, last, and difference
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              firstWeight,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            Row(
-              children: [
-                Text(
-                  'Difference: ${weightDifference.abs().toStringAsFixed(1)} ${Entry.units[Entry.weight]}',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(width: 4),
-                Icon(
-                  weightDifference > 0 ? Icons.arrow_upward : weightDifference < 0 ? Icons.arrow_downward : Icons.horizontal_rule,
-                  color: weightDifference > 0
-                      ? Theme.of(context).colorScheme.error
-                      : Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ],
-            ),
-            Text(
-              lastWeight,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ],
-        ),
+        if (showDifferenceBar) differenceBar(),
         const SizedBox(height: 16),
         // Graph
         SizedBox(
@@ -72,7 +84,7 @@ class WeightGraph extends StatelessWidget {
               maxY: maxY + 1, // Adding some padding above the max value
               lineBarsData: [
                 LineChartBarData(
-                  spots: data.asMap().entries.where((entry) => entry.value.type == Entry.weight).map((entry) {
+                  spots: data.asMap().entries.where((entry) => entry.value.type == type).map((entry) {
                     final double weight = double.tryParse(entry.value.content) ?? 0.0;
                     final double x = entry.key.toDouble();
                     return FlSpot(x, weight);
