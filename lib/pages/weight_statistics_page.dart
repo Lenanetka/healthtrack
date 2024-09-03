@@ -38,7 +38,7 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
   Future<void> _loadEntries() async {
     final fetchedEntries = await _db.getJournalByRangeType(_selectedDateRange, Entry.weight);
     setState(() {
-      _data = fetchedEntries ;
+      _data = fetchedEntries;
     });
   }
 
@@ -53,7 +53,8 @@ class _WeightStatisticsPageState extends State<WeightStatisticsPage> {
     return Center(
       child: Text(
         'No data available.',
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.bodyLarge,
+        textAlign: TextAlign.center,
       ),
     );
   }

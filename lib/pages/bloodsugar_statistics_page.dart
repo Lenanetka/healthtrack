@@ -54,7 +54,8 @@ class _BloodSugarStatisticsPageState extends State<BloodSugarStatisticsPage> {
     return Center(
       child: Text(
         'No data available.',
-        style: Theme.of(context).textTheme.titleMedium,
+        style: Theme.of(context).textTheme.bodyLarge,
+        textAlign: TextAlign.center,
       ),
     );
   }
