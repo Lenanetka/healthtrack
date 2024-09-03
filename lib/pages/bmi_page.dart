@@ -63,11 +63,11 @@ class _BMIPageState extends State<BMIPage> {
                   if (_formKey.currentState!.validate()) {
                     save();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Height saved')),
+                      const SnackBar(content: Text('Saved')),
                     );
                   }
                 },
-                child: const Text('Save Height'),
+                child: const Text('Save height'),
               ),
             ],
           ),

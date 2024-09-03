@@ -19,7 +19,7 @@ class BloodSugarStatisticsPage extends StatefulWidget implements PageWithTitle {
   @override
   Icon get icon => const Icon(Icons.bar_chart);
   @override
-  String get title => 'Statistics: Blood Sugar';
+  String get title => 'Statistics: Blood sugar';
 }
 
 class _BloodSugarStatisticsPageState extends State<BloodSugarStatisticsPage> {
