@@ -51,3 +51,17 @@ Database path: '[/data/user/0/com.example.healthtrack1/app_flutter/journal_datab
 ## Line Length
 
 Increase line length from 80 to 120 in Code - Preferences - Settings - search by "length" and update Dart: Line Length value.
+
+## Demo
+
+### Journal
+
+![img](demo/alpha0_2_journal_theme.gif)
+
+### Weight statistics
+
+![](demo/alpha0_3_weight_statistics.gif)
+
+### Blood sugar statistics
+
+![](demo/alpha0_4_sugar_statistics.gif)
