@@ -56,12 +56,12 @@ Increase line length from 80 to 120 in Code - Preferences - Settings - search by
 
 ### Journal
 
-![img](demo/alpha0_2_journal_theme.gif)
+<img src="demo/alpha0_2_journal_theme.gif" height="600">
 
 ### Weight statistics
 
-![](demo/alpha0_3_weight_statistics.gif)
+<img src="demo/alpha0_3_weight_statistics.gif" height="600">
 
 ### Blood sugar statistics
 
-![](demo/alpha0_4_sugar_statistics.gif)
+<img src="demo/alpha0_4_sugar_statistics.gif" height="600">
