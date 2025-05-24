@@ -2,6 +2,18 @@
 
 Track your weight, blood sugar and meals.
 
+### Journal
+
+<img src="demo/alpha0_2_journal_theme.gif" height="600">
+
+### Weight Statistics
+
+<img src="demo/alpha0_3_weight_statistics.gif" height="600">
+
+### Blood Sugar Statistics
+
+<img src="demo/alpha0_4_sugar_statistics.gif" height="600">
+
 ## Dependencies
 
 Can be updated in pubspec.yaml
@@ -52,16 +64,4 @@ Database path: '[/data/user/0/com.example.healthtrack1/app_flutter/journal_datab
 
 Increase line length from 80 to 120 in Code - Preferences - Settings - search by "length" and update Dart: Line Length value.
 
-## Demo
 
-### Journal
-
-<img src="demo/alpha0_2_journal_theme.gif" height="600">
-
-### Weight statistics
-
-<img src="demo/alpha0_3_weight_statistics.gif" height="600">
-
-### Blood sugar statistics
-
-<img src="demo/alpha0_4_sugar_statistics.gif" height="600">
